@@ -1,8 +1,17 @@
 ﻿using NPoco;
 using System;
 using System.Collections.Generic;
+
+#if NETFRAMEWORK
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
+using ConstraintAttribute = Umbraco.Core.Persistence.DatabaseAnnotations.ConstraintAttribute;
+#else
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
+using ConstraintAttribute = Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations.ConstraintAttribute;
+#endif
+
 
 namespace Vendr.Contrib.Reviews.Persistence.Dtos
 {
@@ -11,7 +20,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Dtos
     [ExplicitColumns]
     public class ReviewDto
     {
-        public const string TableName = Constants.DatabaseSchema.Tables.Review;
+        public const string TableName = VendrReviewsConstants.DatabaseSchema.Tables.Review;
 
         [Column("id")]
         public Guid Id { get; set; }

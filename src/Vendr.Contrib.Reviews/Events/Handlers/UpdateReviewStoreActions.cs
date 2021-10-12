@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Vendr.Common.Events;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Services;
-using Vendr.Core.Events.Notification;
-using Vendr.Web.Events.Notification;
-using Vendr.Web.Models;
+using Vendr.Umbraco.Web.Events.Notification;
+using Vendr.Umbraco.Web.Models;
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {
@@ -27,7 +27,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
 
             evt.Actions.Add(new StoreActionDto
             {
-                Icon = Constants.Trees.Reviews.Icon,
+                Icon = VendrReviewsConstants.Trees.Reviews.Icon,
                 Description = $"<strong>{result.TotalItems + " " + (result.TotalItems == 1 ? "review" : "reviews")}</strong> {(result.TotalItems == 1 ? "is" : "are")} awaiting approval",
                 RoutePath = $"#/commerce/vendrreviews/review-list/{evt.StoreId}?statuses={string.Join(",", statuses.Select(x => ((int)x).ToString() ))}"
             });

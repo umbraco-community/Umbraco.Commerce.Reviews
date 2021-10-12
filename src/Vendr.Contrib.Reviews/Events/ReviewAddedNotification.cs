@@ -1,5 +1,5 @@
-﻿using Vendr.Contrib.Reviews.Models;
-using Vendr.Core.Events.Notification;
+﻿using Vendr.Common.Events;
+using Vendr.Contrib.Reviews.Models;
 
 namespace Vendr.Contrib.Reviews.Events
 {

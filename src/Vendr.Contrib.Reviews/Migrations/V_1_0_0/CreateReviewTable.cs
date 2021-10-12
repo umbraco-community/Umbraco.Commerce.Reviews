@@ -13,7 +13,7 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 
         public override void Migrate()
         {
-            var reviewTableName = Constants.DatabaseSchema.Tables.Review;
+            var reviewTableName = VendrReviewsConstants.DatabaseSchema.Tables.Review;
             var storeTableName = Core.Constants.DatabaseSchema.Tables.Store;
 
             if (!TableExists(reviewTableName))

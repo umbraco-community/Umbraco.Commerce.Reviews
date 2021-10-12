@@ -1,8 +1,10 @@
 ﻿using Umbraco.Core.Persistence;
 using Umbraco.Core.Scoping;
+using Vendr.Common;
 using Vendr.Contrib.Reviews.Persistence.Repositories;
 using Vendr.Contrib.Reviews.Persistence.Repositories.Implement;
 using Vendr.Core;
+using Vendr.Infrastructure;
 
 namespace Vendr.Contrib.Reviews.Persistence
 {

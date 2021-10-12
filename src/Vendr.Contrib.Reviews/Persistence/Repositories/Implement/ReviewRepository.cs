@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Persistence;
 using Umbraco.Core.Persistence.SqlSyntax;
-using Vendr.Contrib.Reviews.Persistence.Factories;
+using Vendr.Common.Models;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Persistence.Dtos;
-using Vendr.Core;
-using Vendr.Core.Models;
+using Vendr.Contrib.Reviews.Persistence.Factories;
+using Vendr.Infrastructure;
 
 namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 {

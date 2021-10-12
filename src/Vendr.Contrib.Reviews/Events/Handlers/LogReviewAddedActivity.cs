@@ -1,7 +1,6 @@
 ﻿using Umbraco.Core.Models.PublishedContent;
+using Vendr.Common.Events;
 using Vendr.Core.Adapters;
-using Vendr.Core.Events.Notification;
-using Vendr.Core.Logging;
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {
@@ -28,7 +27,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
 
             _activityLogger.LogActivity(evt.Review.StoreId,
                 evt.Review.Id, 
-                Constants.Entities.EntityTypes.Review,
+                VendrReviewsConstants.Entities.EntityTypes.Review,
                 "New review added",
                 $"vendrreviews/review-edit/{evt.Review.StoreId}_{evt.Review.Id}",
                 $"Review submitted from {evt.Review.Name} with a rating of {evt.Review.Rating} for product {snapshot.Sku}",

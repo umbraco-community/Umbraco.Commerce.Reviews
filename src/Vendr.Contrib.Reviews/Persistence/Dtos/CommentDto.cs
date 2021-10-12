@@ -10,7 +10,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Dtos
     [ExplicitColumns]
     public class CommentDto
     {
-        public const string TableName = Constants.DatabaseSchema.Tables.Comment;
+        public const string TableName = VendrReviewsConstants.DatabaseSchema.Tables.Comment;
 
         [Column("id")]
         [PrimaryKeyColumn(AutoIncrement = false)]

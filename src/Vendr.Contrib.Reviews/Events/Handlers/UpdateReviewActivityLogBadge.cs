@@ -1,6 +1,11 @@
 ﻿using System.Linq;
+using Vendr.Common.Events;
 using Vendr.Core.Events.Notification;
-using Vendr.Web.Events.Notification;
+using Vendr.Umbraco.Web.Events.Notification;
+
+#if NET
+using Microsoft.Extensions.Options;
+#endif
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {
@@ -10,7 +15,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
         {
             foreach (var entry in evt.LogEntries.Where(x => 
                 x.StoreId == evt.StoreId && 
-                x.EntityType == Constants.Entities.EntityTypes.Review))
+                x.EntityType == VendrReviewsConstants.Entities.EntityTypes.Review))
             {
                 entry.BadgeLabel = "Review";
                 entry.BadgeColorClass = "vendr-bg--orange";

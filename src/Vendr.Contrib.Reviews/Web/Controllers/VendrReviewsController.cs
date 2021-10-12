@@ -13,6 +13,10 @@ using System.Text;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Vendr.Core.Models;
+using Vendr.Core.Api;
+using Vendr.Contrib.Reviews.Configuration;
+using Vendr.Common.Models;
+using Vendr.Common.Validation;
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
@@ -20,11 +24,13 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
     {
         private readonly IVendrApi _vendrApi;
         private readonly IReviewService _reviewService;
+        private readonly VendrReviewsSettings _settings;
 
-        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService)
+        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService, VendrReviewsSettings settings)
         {
             _vendrApi = vendrAPi;
             _reviewService = reviewService;
+            _settings = settings;
         }
 
         [HttpPost]
@@ -66,13 +72,15 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
         private void ValidateCaptcha()
         {
-            if (!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SecretKey"])
-                && !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"])
-                && !string.IsNullOrWhiteSpace(Request.Form["h-captcha-response"]))
+            string hCaptchaResponse = Request.Form["h-captcha-response"];
+
+            if (!string.IsNullOrWhiteSpace(_settings.HCaptchaSecretKey)
+                && !string.IsNullOrWhiteSpace(_settings.HCaptchaSiteKey)
+                && !string.IsNullOrWhiteSpace(hCaptchaResponse))
             {
                 try
                 {
-                    var postData = $"response={Request.Form["h-captcha-response"]}&secret={ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SecretKey"]}&sitekey={ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"]}";
+                    var postData = $"response={hCaptchaResponse}&secret={_settings.HCaptchaSecretKey}&sitekey={_settings.HCaptchaSiteKey}";
                     var byteArray = Encoding.UTF8.GetBytes(postData);
 
                     var request = (HttpWebRequest)WebRequest.Create("https://hcaptcha.com/siteverify");
@@ -100,7 +108,8 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                                 _vendrApi.Log.Info<VendrReviewsController>("Failed hCaptcha validation with error codes: ",
                                     string.Join(", ", data["error-codes"].ToObject<string[]>()));
 
-                                throw new ValidationException(new[] {
+                                throw new ValidationException(new[]
+                                {
                                     new ValidationError("Failed hCaptcha validation")
                                 });
                             }
