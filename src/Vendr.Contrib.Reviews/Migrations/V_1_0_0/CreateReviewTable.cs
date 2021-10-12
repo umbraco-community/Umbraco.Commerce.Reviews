@@ -1,7 +1,12 @@
 ﻿using Umbraco.Core.Migrations;
+
+#if NETFRAMEWORK
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
 using Umbraco.Core.Persistence.SqlSyntax;
-using Vendr.Contrib.Reviews.Persistence.Dtos;
+#else
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
+using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+#endif
 
 namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 {
@@ -14,7 +19,7 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
         public override void Migrate()
         {
             var reviewTableName = VendrReviewsConstants.DatabaseSchema.Tables.Review;
-            var storeTableName = Core.Constants.DatabaseSchema.Tables.Store;
+            var storeTableName = Vendr.Infrastructure.Constants.DatabaseSchema.Tables.Store;
 
             if (!TableExists(reviewTableName))
             {

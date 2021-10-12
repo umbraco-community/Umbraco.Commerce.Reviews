@@ -1,18 +1,19 @@
 ﻿using Umbraco.Core.Models.PublishedContent;
 using Vendr.Common.Events;
 using Vendr.Core.Adapters;
+using Vendr.Core.Services;
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {
     public class LogReviewAddedActivity : NotificationEventHandlerBase<ReviewAddedNotification>
     {
-        private readonly IActivityLogger _activityLogger;
+        private readonly IActivityLogService _activityLogService;
         private readonly IProductAdapter _productAdapter;
         private readonly IVariationContextAccessor _variationContextAccessor;
 
-        public LogReviewAddedActivity(IActivityLogger activityLogger, IProductAdapter productAdapter, IVariationContextAccessor variationContextAccessor)
+        public LogReviewAddedActivity(IActivityLogService activityLogService, IProductAdapter productAdapter, IVariationContextAccessor variationContextAccessor)
         {
-            _activityLogger = activityLogger;
+            _activityLogService = activityLogService;
             _productAdapter = productAdapter;
             _variationContextAccessor = variationContextAccessor;
         }
@@ -25,7 +26,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
             if (snapshot == null)
                 return;
 
-            _activityLogger.LogActivity(evt.Review.StoreId,
+            _activityLogService.LogActivity(evt.Review.StoreId,
                 evt.Review.Id, 
                 VendrReviewsConstants.Entities.EntityTypes.Review,
                 "New review added",

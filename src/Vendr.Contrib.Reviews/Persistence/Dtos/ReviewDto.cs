@@ -12,7 +12,6 @@ using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
 using ConstraintAttribute = Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations.ConstraintAttribute;
 #endif
 
-
 namespace Vendr.Contrib.Reviews.Persistence.Dtos
 {
     [TableName(TableName)]

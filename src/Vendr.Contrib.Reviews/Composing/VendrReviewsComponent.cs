@@ -1,6 +1,12 @@
-﻿using Umbraco.Core.Composing;
+﻿using Vendr.Contrib.Reviews.Api;
+
+#if NETFRAMEWORK
+using Umbraco.Core.Composing;
 using Umbraco.Web.Trees;
-using Vendr.Contrib.Reviews.Api;
+#else
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Web.BackOffice.Trees;
+#endif
 
 namespace Vendr.Contrib.Reviews.Composing
 {

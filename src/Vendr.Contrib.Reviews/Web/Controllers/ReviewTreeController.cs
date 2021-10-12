@@ -1,10 +1,18 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http.ModelBinding;
+
+#if NETFRAMEWORK
 using Umbraco.Web.Actions;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.Trees;
 using Umbraco.Web.WebApi.Filters;
+#else
+using Umbraco.Cms.Core.Actions;
+using Umbraco.Cms.Core.Trees;
+using Umbraco.Cms.Web.BackOffice.Trees;
+using Umbraco.Cms.Web.Common.Filters;
+#endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {

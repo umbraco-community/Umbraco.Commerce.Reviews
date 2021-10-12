@@ -2,13 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Persistence.SqlSyntax;
 using Vendr.Common.Models;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Persistence.Dtos;
 using Vendr.Contrib.Reviews.Persistence.Factories;
 using Vendr.Infrastructure;
+
+#if NETFRAMEWORK
+using Umbraco.Core.Persistence;
+using Umbraco.Core.Persistence.SqlSyntax;
+#else
+using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+#endif
 
 namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 {

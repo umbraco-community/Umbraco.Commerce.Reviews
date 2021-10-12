@@ -1,9 +1,18 @@
 ﻿using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
-using Umbraco.Core.Migrations;
-using Umbraco.Core.Migrations.Upgrade;
+
+#if NETFRAMEWORK
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
+using Umbraco.Core.Migrations;
+using Umbraco.Core.Migrations.Upgrade;
+#else
+using Umbraco.Cms.Core.Scoping;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Infrastructure.Migrations;
+using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
+#endif
+
 using Vendr.Contrib.Reviews.Migrations.V_1_0_0;
 
 namespace Vendr.Contrib.Reviews.Composing

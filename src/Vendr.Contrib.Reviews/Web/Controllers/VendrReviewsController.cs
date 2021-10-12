@@ -1,22 +1,22 @@
-﻿using System.Web.Mvc;
-using Umbraco.Web.Mvc;
-using Vendr.Core;
-using Vendr.Contrib.Reviews.Web.Dtos;
-using Vendr.Core.Exceptions;
-using Vendr.Core.Web.Api;
-using Vendr.Contrib.Reviews.Services;
-using Vendr.Contrib.Reviews.Models;
-using System.Configuration;
-using System.Net;
+﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using Vendr.Core.Models;
-using Vendr.Core.Api;
-using Vendr.Contrib.Reviews.Configuration;
+using System.Net;
+using System.Text;
+using System.Web.Mvc;
 using Vendr.Common.Models;
 using Vendr.Common.Validation;
+using Vendr.Contrib.Reviews.Configuration;
+using Vendr.Contrib.Reviews.Models;
+using Vendr.Contrib.Reviews.Services;
+using Vendr.Contrib.Reviews.Web.Dtos;
+using Vendr.Core.Api;
+
+#if NETFRAMEWORK
+using Umbraco.Web.Mvc;
+#else
+using Umbraco.Cms.Web.Website.Controllers;
+#endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {

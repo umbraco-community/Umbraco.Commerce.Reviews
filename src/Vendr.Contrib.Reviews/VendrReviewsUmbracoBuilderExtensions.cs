@@ -5,10 +5,10 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Notifications;
-using Vendr.Checkout.Configuration;
-using Vendr.Checkout.Events;
-using Vendr.Checkout.Extensions;
-using Vendr.Checkout.Services;
+using Vendr.Contrib.Reviews.Configuration;
+using Vendr.Contrib.Reviews.Events;
+using Vendr.Contrib.Reviews.Extensions;
+using Vendr.Contrib.Reviewst.Services;
 
 namespace Vendr.Contrib.Reviews
 {
