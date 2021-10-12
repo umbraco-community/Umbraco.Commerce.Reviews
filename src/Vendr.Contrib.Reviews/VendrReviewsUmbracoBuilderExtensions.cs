@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Notifications;
+using Vendr.Contrib.Reviews.Composing;
 using Vendr.Contrib.Reviews.Configuration;
 using Vendr.Contrib.Reviews.Events;
 using Vendr.Contrib.Reviews.Extensions;

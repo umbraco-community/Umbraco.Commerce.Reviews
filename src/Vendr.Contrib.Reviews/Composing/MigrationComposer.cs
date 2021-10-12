@@ -8,7 +8,7 @@ using Umbraco.Cms;
 using Umbraco.Cms.Core.Composing;
 #endif
 
-namespace Vendr.Contrib.Reviews.Composers
+namespace Vendr.Contrib.Reviews.Composing
 {
     // TODO: Update to work with .NET Framework / .NET5
     [RuntimeLevel(MinLevel = RuntimeLevel.Run)]

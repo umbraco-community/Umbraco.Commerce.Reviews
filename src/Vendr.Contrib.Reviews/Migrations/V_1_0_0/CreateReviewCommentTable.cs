@@ -5,7 +5,7 @@ using Umbraco.Core.Persistence.DatabaseModelDefinitions;
 using Umbraco.Core.Persistence.SqlSyntax;
 #else
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
-using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+using SqlCeSyntaxProvider = Umbraco.Cms.Infrastructure.Persistence.SqlSyntax.SqlServerSyntaxProvider;
 #endif
 
 namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0

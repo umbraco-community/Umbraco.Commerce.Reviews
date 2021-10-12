@@ -25,6 +25,7 @@ using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Models.ContentEditing;
 using Umbraco.Cms.Web.BackOffice.Controllers;
+using Umbraco.Cms.Web.Common.Attributes;
 using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
 #endif
 

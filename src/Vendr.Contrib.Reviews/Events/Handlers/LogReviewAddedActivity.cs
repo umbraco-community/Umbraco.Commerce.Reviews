@@ -1,7 +1,12 @@
-﻿using Umbraco.Core.Models.PublishedContent;
-using Vendr.Common.Events;
+﻿using Vendr.Common.Events;
 using Vendr.Core.Adapters;
 using Vendr.Core.Services;
+
+#if NETFRAMEWORK
+using Umbraco.Core.Models.PublishedContent;
+#else
+using Umbraco.Cms.Core.Models.PublishedContent;
+#endif
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {

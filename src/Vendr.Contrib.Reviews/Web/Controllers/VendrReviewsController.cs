@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using Umbraco.Web.Mvc;
 #else
 using Microsoft.AspNetCore.Mvc;
+using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Website.Controllers;
 #endif
 
