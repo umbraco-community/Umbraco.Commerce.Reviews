@@ -8,7 +8,9 @@ using Umbraco.Cms.Core.Notifications;
 using Vendr.Contrib.Reviews.Configuration;
 using Vendr.Contrib.Reviews.Events;
 using Vendr.Contrib.Reviews.Extensions;
-using Vendr.Contrib.Reviewst.Services;
+using Vendr.Contrib.Reviews.Persistence;
+using Vendr.Contrib.Reviews.Services;
+using Vendr.Contrib.Reviews.Services.Implement;
 
 namespace Vendr.Contrib.Reviews
 {
@@ -30,17 +32,13 @@ namespace Vendr.Contrib.Reviews
 
             options.ValidateDataAnnotations();
 
-            // Register API
-            builder.Register<VendrReviewsApi>(Lifetime.Singleton);
-
-            // Register factories
-            builder.RegisterUnique<IReviewRepositoryFactory, ReviewRepositoryFactory>();
-
             // Register event handlers
             builder.AddVendrEventHandlers();
 
             // Register services
-            builder.Register<ReviewService>(Lifetime.Singleton);
+            builder.Services.AddSingleton<ReviewRepositoryFactory>();
+            builder.Services.AddSingleton<VendrReviewsApi>();
+            builder.Services.AddSingleton<ReviewService>();
 
             // Register component
             builder.Components()

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Web.Http;
 using Vendr.Contrib.Reviews.Helpers;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Services;
@@ -13,6 +12,7 @@ using Vendr.Contrib.Reviews.Web.Dtos.Mappers;
 using Vendr.Core.Adapters;
 
 #if NETFRAMEWORK
+using System.Web.Http;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.Models.ContentEditing;
@@ -20,10 +20,11 @@ using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using Notification = Umbraco.Web.Models.ContentEditing.Notification;
 #else
+using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Models.ContentEditing;
-using Umbraco.Cms.Web.Website.Controllers;
+using Umbraco.Cms.Web.BackOffice.Controllers;
 using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
 #endif
 

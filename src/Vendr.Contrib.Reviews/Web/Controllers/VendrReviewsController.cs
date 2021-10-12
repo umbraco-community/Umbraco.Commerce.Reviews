@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Web.Mvc;
 using Vendr.Common.Models;
 using Vendr.Common.Validation;
 using Vendr.Contrib.Reviews.Configuration;
@@ -13,8 +12,10 @@ using Vendr.Contrib.Reviews.Web.Dtos;
 using Vendr.Core.Api;
 
 #if NETFRAMEWORK
+using System.Web.Mvc;
 using Umbraco.Web.Mvc;
 #else
+using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Web.Website.Controllers;
 #endif
 

@@ -11,6 +11,7 @@ using Umbraco.Web.WebApi.Filters;
 using Umbraco.Cms.Core.Actions;
 using Umbraco.Cms.Core.Trees;
 using Umbraco.Cms.Web.BackOffice.Trees;
+using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Common.Filters;
 #endif
 
