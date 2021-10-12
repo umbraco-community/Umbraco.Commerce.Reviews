@@ -1,6 +1,12 @@
-﻿using Umbraco.Core;
+﻿using Vendr.Contrib.Reviews.Composing;
+
+#if NETFRAMEWORK
+using Umbraco.Core;
 using Umbraco.Core.Composing;
-using Vendr.Contrib.Reviews.Composing;
+#else
+using Umbraco.Cms;
+using Umbraco.Cms.Core.Composing;
+#endif
 
 namespace Vendr.Contrib.Reviews.Composers
 {

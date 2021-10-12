@@ -6,7 +6,7 @@ using Vendr.Infrastructure;
 #if NETFRAMEWORK
 using Umbraco.Core.Scoping;
 #else
-using Umbraco.Cms.Core.Scoping
+using Umbraco.Cms.Core.Scoping;
 #endif
 
 namespace Vendr.Contrib.Reviews.Persistence

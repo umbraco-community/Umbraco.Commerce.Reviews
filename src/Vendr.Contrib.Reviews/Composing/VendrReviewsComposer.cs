@@ -1,12 +1,12 @@
-﻿using Umbraco.Core;
-using Umbraco.Core.Composing;
-using Vendr.Contrib.Reviews.Api;
+﻿using Vendr.Contrib.Reviews.Api;
 using Vendr.Contrib.Reviews.Configuration;
 using Vendr.Contrib.Reviews.Extensions;
 using Vendr.Contrib.Reviews.Persistence;
 using Vendr.Contrib.Reviews.Services.Implement;
 
 #if NETFRAMEWORK
+using Umbraco.Core;
+using Umbraco.Core.Composing;
 using IBuilder = Umbraco.Core.Composing.Composition;
 #else
 using Umbraco.Cms.Core.Composing;

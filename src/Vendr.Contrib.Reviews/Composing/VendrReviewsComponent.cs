@@ -47,8 +47,8 @@ namespace Vendr.Contrib.Reviews.Composing
                 reviewsNode.NodeType = VendrReviewsConstants.Trees.Reviews.NodeType;
 
                 reviewsNode.AdditionalData.Add("storeId", storeId);
-                reviewsNode.AdditionalData.Add("tree", Vendr.Web.Constants.Trees.Stores.Alias);
-                reviewsNode.AdditionalData.Add("application", Vendr.Web.Constants.Sections.Commerce);
+                reviewsNode.AdditionalData.Add("tree", Vendr.Umbraco.Constants.Trees.Stores.Alias);
+                reviewsNode.AdditionalData.Add("application", Vendr.Umbraco.Constants.Sections.Commerce);
 
                 var optNodeIndex = e.Nodes.FindIndex(x => x.NodeType == "Options");
                 var index = optNodeIndex >= 0 ? optNodeIndex : e.Nodes.Count; 
