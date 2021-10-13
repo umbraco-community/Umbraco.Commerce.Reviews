@@ -79,13 +79,13 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         {
             string hCaptchaResponse = Request.Form["h-captcha-response"];
 
-            if (!string.IsNullOrWhiteSpace(_settings.HCaptchaSecretKey)
-                && !string.IsNullOrWhiteSpace(_settings.HCaptchaSiteKey)
+            if (!string.IsNullOrWhiteSpace(_settings.HCaptcha?.SecretKey)
+                && !string.IsNullOrWhiteSpace(_settings.HCaptcha?.SiteKey)
                 && !string.IsNullOrWhiteSpace(hCaptchaResponse))
             {
                 try
                 {
-                    var postData = $"response={hCaptchaResponse}&secret={_settings.HCaptchaSecretKey}&sitekey={_settings.HCaptchaSiteKey}";
+                    var postData = $"response={hCaptchaResponse}&secret={_settings.HCaptcha.SecretKey}&sitekey={_settings.HCaptcha.SiteKey}";
                     var byteArray = Encoding.UTF8.GetBytes(postData);
 
                     var request = (HttpWebRequest)WebRequest.Create("https://hcaptcha.com/siteverify");
