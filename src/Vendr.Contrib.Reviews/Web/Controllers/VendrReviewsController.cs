@@ -10,6 +10,7 @@ using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Services;
 using Vendr.Contrib.Reviews.Web.Dtos;
 using Vendr.Core.Api;
+using Vendr.Common.Logging;
 
 #if NETFRAMEWORK
 using System.Web.Mvc;
@@ -24,12 +25,14 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 {
     public class VendrReviewsController : SurfaceController, IRenderController
     {
+        private readonly ILogger<VendrReviewsController> _logger;
         private readonly IVendrApi _vendrApi;
         private readonly IReviewService _reviewService;
         private readonly VendrReviewsSettings _settings;
 
-        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService, VendrReviewsSettings settings)
+        public VendrReviewsController(ILogger<VendrReviewsController> logger, IVendrApi vendrAPi, IReviewService reviewService, VendrReviewsSettings settings)
         {
+            _logger = logger;
             _vendrApi = vendrAPi;
             _reviewService = reviewService;
             _settings = settings;
@@ -107,8 +110,9 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
                             if (data["success"].Value<bool>() == false)
                             {
-                                _vendrApi.Log.Info<VendrReviewsController>("Failed hCaptcha validation with error codes: ",
-                                    string.Join(", ", data["error-codes"].ToObject<string[]>()));
+                                string[] errorCodes = data["error-codes"].ToObject<string[]>();
+
+                                _logger.Info("Failed hCaptcha validation with error codes: ", string.Join(", ", errorCodes));
 
                                 throw new ValidationException(new[]
                                 {
@@ -124,7 +128,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _vendrApi.Log.Error<VendrReviewsController>(ex, "Exception was thrown whilst validating a hCaptcha");
+                    _logger.Error(ex, "Exception was thrown whilst validating a hCaptcha");
                 }
             }
         }
