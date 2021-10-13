@@ -1,6 +1,4 @@
-﻿using Vendr.Common.Logging;
-
-#if NETFRAMEWORK
+﻿#if NETFRAMEWORK
 using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Scoping;
@@ -26,14 +24,15 @@ namespace Vendr.Contrib.Reviews.Composing
         private readonly IScopeProvider _scopeProvider;
         private readonly IMigrationBuilder _migrationBuilder;
         private readonly IKeyValueService _keyValueService;
-        private readonly ILogger<MigrationComponent> _logger;
 
-#if NET
+#if NETFRAMEWORK
+        private readonly ILogger _logger;
+#else
         private readonly IMigrationPlanExecutor _migrationPlanExecutor;
 #endif
 
 #if NETFRAMEWORK
-        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, ILogger<MigrationComponent> logger)
+        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, ILogger logger)
         {
             _scopeProvider = scopeProvider;
             _migrationBuilder = migrationBuilder;
@@ -41,12 +40,11 @@ namespace Vendr.Contrib.Reviews.Composing
             _logger = logger;
         }
 #else
-        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, ILogger<MigrationComponent> logger)
+        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService)
         {
             _scopeProvider = scopeProvider;
             _migrationBuilder = migrationBuilder;
             _keyValueService = keyValueService;
-            _logger = logger;
         }
 #endif
 

@@ -171,7 +171,11 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             }
             catch (Exception ex)
             {
+#if NETFRAMEWORK
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex));
+#else
+                throw new HttpBadRequest();
+#endif
             }
 
             var model = EntityMapper.ReviewEntityToEditDto(entity);

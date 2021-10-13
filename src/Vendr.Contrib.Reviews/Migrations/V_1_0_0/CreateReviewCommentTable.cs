@@ -18,9 +18,9 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 
         public override void Migrate()
         {
-            var commentTableName = Constants.DatabaseSchema.Tables.Comment;
-            var reviewTableName = Constants.DatabaseSchema.Tables.Review;
-            var storeTableName = Vendr.Infrastructure.Constants.DatabaseSchema.Tables.Store;
+            const string commentTableName = Constants.DatabaseSchema.Tables.Comment;
+            const string reviewTableName = Constants.DatabaseSchema.Tables.Review;
+            const string storeTableName = Vendr.Infrastructure.Constants.DatabaseSchema.Tables.Store;
 
             if (!TableExists(commentTableName))
             {

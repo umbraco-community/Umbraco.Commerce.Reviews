@@ -34,7 +34,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
     [PluginController(Constants.Internals.PluginControllerName)]
     public sealed class ReviewTreeController : TreeController
     {
-        protected override MenuItemCollection GetMenuForNode(string id, FormDataCollection queryStrings)
+        protected override MenuItemCollection GetMenuForNode(string id, [ModelBinder(typeof(HttpQueryStringModelBinder))] FormDataCollection queryStrings)
         {
             var menu = new MenuItemCollection();
 
@@ -56,19 +56,22 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
     public sealed class ReviewTreeController : TreeController
     {
         private readonly ILocalizedTextService _localizedTextService;
+        private readonly IMenuItemCollectionFactory _menuItemCollectionFactory;
 
         public ReviewTreeController(
             ILocalizedTextService localizedTextService,
             UmbracoApiControllerTypeCollection umbracoApiControllerTypeCollection,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IMenuItemCollectionFactory menuItemCollectionFactory)
             : base(localizedTextService, umbracoApiControllerTypeCollection, eventAggregator)
         {
             _localizedTextService = localizedTextService;
+            _menuItemCollectionFactory = menuItemCollectionFactory;
         }
 
-        protected override MenuItemCollection GetMenuForNode(string id, FormDataCollection queryStrings)
+        protected override ActionResult<MenuItemCollection> GetMenuForNode(string id, [ModelBinder(typeof(HttpQueryStringModelBinder))] FormDataCollection queryStrings)
         {
-            var menu = new MenuItemCollection();
+            var menu = _menuItemCollectionFactory.Create();
 
             menu.Items.Add<ActionDelete>(_localizedTextService).LaunchDialogView("/app_plugins/vendrreviews/backoffice/views/dialogs/delete.html", "Delete");
 

@@ -13,6 +13,7 @@ using Vendr.Core.Api;
 using Vendr.Common.Logging;
 
 #if NETFRAMEWORK
+using IActionResult = System.Web.Mvc.ActionResult;
 using Umbraco.Core;
 using System.Web.Mvc;
 using Umbraco.Web;
@@ -20,24 +21,39 @@ using Umbraco.Web.Mvc;
 #else
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Core.Cache;
+using Umbraco.Cms.Core.Logging;
+using Umbraco.Cms.Core.Routing;
+using Umbraco.Cms.Web.Website.Controllers;
 using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Website.Controllers;
+using Umbraco.Extensions;
 #endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
     public class VendrReviewsController : SurfaceController, IRenderController
-    {
-        private readonly ILogger<VendrReviewsController> _logger;
+    { 
         private readonly IVendrApi _vendrApi;
         private readonly IReviewService _reviewService;
+        private readonly ILogger<VendrReviewsController> _logger;
         private readonly VendrReviewsSettings _settings;
 
-        public VendrReviewsController(ILogger<VendrReviewsController> logger, IVendrApi vendrAPi, IReviewService reviewService, VendrReviewsSettings settings)
+#if NETFRAMEWORK
+        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
+#else
+        public VendrCheckoutSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
+            ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
+            IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
+            : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+#endif
         {
-            _logger = logger;
             _vendrApi = vendrAPi;
+            _logger = logger;
             _reviewService = reviewService;
             _settings = settings;
         }
@@ -47,7 +63,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 #if NET
         [ValidateUmbracoFormRouteString]
 #endif
-        public ActionResult AddReview(AddReviewDto dto)
+        public IActionResult AddReview(AddReviewDto dto)
         {
             try
             {
