@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Notifications;
+using Vendr.Contrib.Reviews.Api;
 using Vendr.Contrib.Reviews.Composing;
 using Vendr.Contrib.Reviews.Configuration;
 using Vendr.Contrib.Reviews.Events;
@@ -26,7 +27,7 @@ namespace Vendr.Contrib.Reviews
         {
             // Register configuration
             var options = builder.Services.AddOptions<VendrReviewsSettings>()
-                .Bind(builder.Config.GetSection(VendrReviewsConstants.System.ProductName));
+                .Bind(builder.Config.GetSection(Constants.System.ProductName));
 
             if (defaultOptions != default)
                 options.Configure(defaultOptions);

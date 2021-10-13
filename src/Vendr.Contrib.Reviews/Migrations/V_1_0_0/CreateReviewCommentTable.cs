@@ -1,9 +1,9 @@
-﻿using Umbraco.Core.Migrations;
-
-#if NETFRAMEWORK
+﻿#if NETFRAMEWORK
+using Umbraco.Core.Migrations;
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
 using Umbraco.Core.Persistence.SqlSyntax;
 #else
+using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
 using SqlCeSyntaxProvider = Umbraco.Cms.Infrastructure.Persistence.SqlSyntax.SqlServerSyntaxProvider;
 #endif
@@ -18,8 +18,8 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 
         public override void Migrate()
         {
-            var commentTableName = VendrReviewsConstants.DatabaseSchema.Tables.Comment;
-            var reviewTableName = VendrReviewsConstants.DatabaseSchema.Tables.Review;
+            var commentTableName = Constants.DatabaseSchema.Tables.Comment;
+            var reviewTableName = Constants.DatabaseSchema.Tables.Review;
             var storeTableName = Vendr.Infrastructure.Constants.DatabaseSchema.Tables.Store;
 
             if (!TableExists(commentTableName))

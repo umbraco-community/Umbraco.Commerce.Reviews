@@ -13,10 +13,14 @@ using Vendr.Core.Api;
 using Vendr.Common.Logging;
 
 #if NETFRAMEWORK
+using Umbraco.Core;
 using System.Web.Mvc;
+using Umbraco.Web;
 using Umbraco.Web.Mvc;
 #else
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Website.Controllers;
 #endif
@@ -40,6 +44,9 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+#if NET
+        [ValidateUmbracoFormRouteString]
+#endif
         public ActionResult AddReview(AddReviewDto dto)
         {
             try

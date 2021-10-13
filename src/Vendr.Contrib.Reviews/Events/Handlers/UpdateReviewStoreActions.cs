@@ -27,7 +27,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
 
             evt.Actions.Add(new StoreActionDto
             {
-                Icon = VendrReviewsConstants.Trees.Reviews.Icon,
+                Icon = Constants.Trees.Reviews.Icon,
                 Description = $"<strong>{result.TotalItems + " " + (result.TotalItems == 1 ? "review" : "reviews")}</strong> {(result.TotalItems == 1 ? "is" : "are")} awaiting approval",
                 RoutePath = $"#/commerce/vendrreviews/review-list/{evt.StoreId}?statuses={string.Join(",", statuses.Select(x => ((int)x).ToString() ))}"
             });

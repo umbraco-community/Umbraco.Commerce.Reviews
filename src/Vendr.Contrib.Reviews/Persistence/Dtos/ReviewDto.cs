@@ -19,7 +19,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Dtos
     [ExplicitColumns]
     public class ReviewDto
     {
-        public const string TableName = VendrReviewsConstants.DatabaseSchema.Tables.Review;
+        public const string TableName = Constants.DatabaseSchema.Tables.Review;
 
         [Column("id")]
         public Guid Id { get; set; }

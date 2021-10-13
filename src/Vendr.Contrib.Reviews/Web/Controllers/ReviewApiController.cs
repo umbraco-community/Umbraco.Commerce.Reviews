@@ -132,6 +132,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         }
 
         [HttpGet]
+#if NETFRAMEWORK
         public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromUri] ReviewStatus[] statuses = null, [FromUri] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 50)
         {
             var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
@@ -141,6 +142,17 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                 Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
             };
         }
+#else
+        public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromQuery] ReviewStatus[] statuses = null, [FromQuery] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 50)
+        {
+            var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
+
+            return new PagedResult<ReviewDto>(result.TotalItems, result.PageNumber, result.PageSize)
+            {
+                Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
+            };
+        }
+#endif
 
         [HttpPost]
         public ReviewEditDto SaveReview(ReviewSaveDto review)
@@ -164,7 +176,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
             var model = EntityMapper.ReviewEntityToEditDto(entity);
 
-            model.Notifications.Add(new Notification(_textService.Localize("speechBubbles/operationSavedHeader"), 
+            model.Notifications.Add(new Notification(_textService.Localize("speechBubbles", "operationSavedHeader"),
                 string.Empty, NotificationStyle.Success));
 
             return model;
