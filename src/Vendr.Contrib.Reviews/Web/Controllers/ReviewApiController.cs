@@ -20,6 +20,7 @@ using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using Notification = Umbraco.Web.Models.ContentEditing.Notification;
 #else
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
@@ -172,9 +173,9 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             catch (Exception ex)
             {
 #if NETFRAMEWORK
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed saving review", ex));
 #else
-                throw new HttpBadRequest();
+                throw new BadHttpRequestException("Failed saving review",  ex);
 #endif
             }
 
