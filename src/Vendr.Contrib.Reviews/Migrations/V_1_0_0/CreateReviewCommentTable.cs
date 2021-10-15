@@ -16,7 +16,12 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
             : base(context) 
         { }
 
+
+        #if NETFRAMEWORK
         public override void Migrate()
+        #else
+        protected override void Migrate()
+        #endif
         {
             const string commentTableName = Constants.DatabaseSchema.Tables.Comment;
             const string reviewTableName = Constants.DatabaseSchema.Tables.Review;
