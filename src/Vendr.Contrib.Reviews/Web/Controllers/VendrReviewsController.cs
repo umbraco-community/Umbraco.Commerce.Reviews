@@ -46,7 +46,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 #if NETFRAMEWORK
         public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
 #else
-        public VendrCheckoutSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
+        public VendrReviewsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
             ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
             IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
