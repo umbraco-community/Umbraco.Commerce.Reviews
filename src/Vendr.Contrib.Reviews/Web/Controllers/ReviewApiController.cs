@@ -181,8 +181,10 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
             var model = EntityMapper.ReviewEntityToEditDto(entity);
 
-            model.Notifications.Add(new Notification(_textService.Localize("speechBubbles", "operationSavedHeader"),
-                string.Empty, NotificationStyle.Success));
+            model.Notifications.Add(new Notification(
+                _textService.Localize("speechBubbles", "operationSavedHeader", Thread.CurrentThread.CurrentUICulture),
+                string.Empty, NotificationStyle.Success)
+            );
 
             return model;
         }
