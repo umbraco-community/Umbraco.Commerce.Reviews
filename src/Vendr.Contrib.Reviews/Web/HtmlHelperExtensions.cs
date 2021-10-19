@@ -21,7 +21,7 @@ namespace Vendr.Contrib.Reviews.Web
 
         public static IHtmlContent RenderVendrReviews(this IHtmlHelper html, string partialViewPath, Guid storeId, string productReference)
         {
-            return html.Partial(partialViewPath, new ViewDataDictionary
+            return html.Partial(partialViewPath, new ViewDataDictionary(html.ViewData)
             {
                 { "storeId", storeId },
                 { "productReference", productReference }
