@@ -1,24 +1,25 @@
 ﻿#if NET
+using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Trees;
-using Url = Umbraco.Cms.Web.BackOffice.Trees.UrlHelperExtensions;
+using Umbraco.Cms.Web.BackOffice.Trees;
 
 namespace Vendr.Contrib.Reviews.Notifications
 {
     public class ReviewsTreeNodesNotification : INotificationHandler<TreeNodesRenderingNotification>
     {
-        private readonly IBackOfficeSecurityAccessor _backOfficeSecurityAccessor;
         private readonly UmbracoApiControllerTypeCollection _apiControllers;
+        private readonly IUrlHelper _urlHelper;
 
         public ReviewsTreeNodesNotification(
-            IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
-            UmbracoApiControllerTypeCollection apiControllers)
+            UmbracoApiControllerTypeCollection apiControllers,
+            IUrlHelper urlHelper)
         {
-            _backOfficeSecurityAccessor = backOfficeSecurityAccessor;
             _apiControllers = apiControllers;
+            _urlHelper = urlHelper;
         }
 
         public void Handle(TreeNodesRenderingNotification notification)
@@ -33,8 +34,8 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
-                string jsonUrl = Url.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
-                string menuUrl = Url.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                string jsonUrl = _urlHelper.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                string menuUrl = _urlHelper.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
                 
                 var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
                 {
