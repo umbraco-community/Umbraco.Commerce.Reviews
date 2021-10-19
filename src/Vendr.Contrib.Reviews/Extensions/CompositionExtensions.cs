@@ -14,8 +14,13 @@ namespace Vendr.Contrib.Reviews.Extensions
 {
     internal static class CompositionExtensions
     {
-        public static IBuilder AddVendrEventHandlers(this IBuilder builder)
+        public static IBuilder AddVendrReviewsEventHandlers(this IBuilder builder)
         {
+            #if NET
+            builder.WithNotificationEvent<ReviewsTreeNodesNotification>()
+                .RegisterHandler<TreeNodesRenderingNotification>();
+            #endif
+
             builder.WithNotificationEvent<ReviewAddedNotification>()
                 .RegisterHandler<LogReviewAddedActivity>();
 

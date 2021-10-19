@@ -35,7 +35,7 @@ namespace Vendr.Contrib.Reviews
             options.ValidateDataAnnotations();
 
             // Register event handlers
-            builder.AddVendrEventHandlers();
+            builder.AddVendrReviewsEventHandlers();
 
             // Register services
             builder.Services.AddSingleton<ReviewRepositoryFactory>();

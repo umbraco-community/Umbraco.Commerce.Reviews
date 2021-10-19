@@ -23,15 +23,19 @@ namespace Vendr.Contrib.Reviews.Composing
         {
             VendrReviewsApi.Instance = _api;
 
+            #if NETFRAMEWORK
             TreeControllerBase.TreeNodesRendering += TreeControllerBase_TreeNodesRendering;
+            #endif
         }
 
         public void Terminate()
         {
-            // Unsubscribe on shutdown
+            #if NETFRAMEWORK
             TreeControllerBase.TreeNodesRendering -= TreeControllerBase_TreeNodesRendering;
+            #endif
         }
 
+        #if NETFRAMEWORK
         void TreeControllerBase_TreeNodesRendering(TreeControllerBase sender, TreeNodesRenderingEventArgs e)
         {
             if (sender.TreeAlias == Vendr.Core.Constants.System.ProductAlias && e.QueryStrings["nodeType"] == Vendr.Core.Constants.Entities.EntityTypes.Store)
@@ -56,5 +60,6 @@ namespace Vendr.Contrib.Reviews.Composing
                 e.Nodes.Insert(index, reviewsNode);
             }
         }
+        #endif
     }
 }
