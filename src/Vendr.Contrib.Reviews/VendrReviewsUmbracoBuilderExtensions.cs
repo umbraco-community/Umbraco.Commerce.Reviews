@@ -44,8 +44,8 @@ namespace Vendr.Contrib.Reviews
             builder.AddVendrReviewsEventHandlers();
 
             // Register services
-            builder.Services.AddSingleton<ReviewRepositoryFactory>();
             builder.Services.AddSingleton<VendrReviewsApi>();
+            builder.Services.AddTransient<ReviewRepositoryFactory>();
             builder.Services.AddSingleton<ReviewService>();
 
             // Register component
