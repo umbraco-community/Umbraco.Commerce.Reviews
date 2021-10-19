@@ -33,8 +33,8 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
-                string jsonUrl = Url.GetTreeUrl(_apiControllers, GetType(), id, notification.QueryString);
-                string menuUrl = Url.GetMenuUrl(_apiControllers, GetType(), id, notification.QueryString);
+                string jsonUrl = Url.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                string menuUrl = Url.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
                 
                 var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
                 {
