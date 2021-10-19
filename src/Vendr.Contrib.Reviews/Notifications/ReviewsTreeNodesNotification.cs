@@ -4,7 +4,7 @@ using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Trees;
-using Umbraco.Cms.Web.BackOffice.Trees;
+using Url = Umbraco.Cms.Web.BackOffice.Trees.UrlHelperExtensions;
 
 namespace Vendr.Contrib.Reviews.Notifications
 {
@@ -32,9 +32,9 @@ namespace Vendr.Contrib.Reviews.Notifications
                 var id = Constants.Trees.Reviews.Id;
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
-                
-                var jsonUrl = Umbraco.Cms.Web.BackOffice.Trees.UrlHelperExtensions.GetTreeUrl(_apiControllers, GetType(), id, notification.QueryString);
-                var menuUrl = Umbraco.Cms.Web.BackOffice.Trees.UrlHelperExtensions.GetMenuUrl(_apiControllers, GetType(), id, notification.QueryString);
+
+                string jsonUrl = Url.GetTreeUrl(_apiControllers, GetType(), id, notification.QueryString);
+                string menuUrl = Url.GetMenuUrl(_apiControllers, GetType(), id, notification.QueryString);
                 
                 var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
                 {
@@ -55,7 +55,6 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 notification.Nodes.Insert(index, reviewsNode);
             }
-
         }
     }
 }

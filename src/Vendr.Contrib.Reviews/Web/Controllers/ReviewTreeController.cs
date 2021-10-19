@@ -1,8 +1,6 @@
-﻿using System.Net.Http.Formatting;
-
-#if NETFRAMEWORK
+﻿#if NETFRAMEWORK
+using System.Net.Http.Formatting;
 using System.Web.Http.ModelBinding;
-using Umbraco.Core.Services;
 using Umbraco.Web.Actions;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Mvc;
@@ -70,7 +68,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             _menuItemCollectionFactory = menuItemCollectionFactory;
         }
 
-        protected override ActionResult<MenuItemCollection> GetMenuForNode(string id, [ModelBinder(typeof(HttpQueryStringModelBinder))] FormDataCollection queryStrings)
+        protected override ActionResult<MenuItemCollection> GetMenuForNode(string id, [ModelBinder(typeof(HttpQueryStringModelBinder))] FormCollection queryStrings)
         {
             var menu = _menuItemCollectionFactory.Create();
 
