@@ -1,10 +1,12 @@
 ﻿#if NET
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Trees;
+using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.BackOffice.Trees;
 
 namespace Vendr.Contrib.Reviews.Notifications
@@ -12,14 +14,18 @@ namespace Vendr.Contrib.Reviews.Notifications
     public class ReviewsTreeNodesNotification : INotificationHandler<TreeNodesRenderingNotification>
     {
         private readonly UmbracoApiControllerTypeCollection _apiControllers;
-        private readonly IUrlHelper _urlHelper;
+        private readonly IActionContextAccessor _actionContextAccessor;
+        //private readonly IUrlHelper _urlHelper;
 
         public ReviewsTreeNodesNotification(
             UmbracoApiControllerTypeCollection apiControllers,
-            IUrlHelper urlHelper)
+            IActionContextAccessor actionContextAccessor
+            //IUrlHelper urlHelper
+            )
         {
             _apiControllers = apiControllers;
-            _urlHelper = urlHelper;
+            _actionContextAccessor = actionContextAccessor;
+            //_urlHelper = urlHelper;
         }
 
         public void Handle(TreeNodesRenderingNotification notification)
@@ -34,8 +40,10 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
-                string jsonUrl = _urlHelper.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
-                string menuUrl = _urlHelper.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
+
+                string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                string menuUrl = urlHelper.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
                 
                 var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
                 {

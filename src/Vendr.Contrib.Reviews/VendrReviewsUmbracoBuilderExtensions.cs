@@ -37,16 +37,16 @@ namespace Vendr.Contrib.Reviews
 
             options.ValidateDataAnnotations();
 
+            // Register services
+            builder.Services.AddTransient<IReviewRepositoryFactory, ReviewRepositoryFactory>();
+            builder.Services.AddSingleton<IReviewService, ReviewService>();
+            builder.Services.AddSingleton<VendrReviewsApi>();
+
             // Register event handlers
 #if NET
             builder.AddNotificationHandler<TreeNodesRenderingNotification, ReviewsTreeNodesNotification>();
 #endif
             builder.AddVendrReviewsEventHandlers();
-
-            // Register services
-            builder.Services.AddSingleton<VendrReviewsApi>();
-            builder.Services.AddTransient<ReviewRepositoryFactory>();
-            builder.Services.AddSingleton<ReviewService>();
 
             // Register component
             builder.Components()
