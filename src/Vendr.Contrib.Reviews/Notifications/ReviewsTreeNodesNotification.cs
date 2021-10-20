@@ -1,6 +1,7 @@
 ﻿#if NET
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Security;
@@ -15,16 +16,19 @@ namespace Vendr.Contrib.Reviews.Notifications
     public class ReviewsTreeNodesNotification : INotificationHandler<TreeNodesRenderingNotification>
     {
         private readonly UmbracoApiControllerTypeCollection _apiControllers;
+        private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IActionContextAccessor _actionContextAccessor;
         //private readonly IUrlHelper _urlHelper;
 
         public ReviewsTreeNodesNotification(
             UmbracoApiControllerTypeCollection apiControllers,
+            IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor
             //IUrlHelper urlHelper
             )
         {
             _apiControllers = apiControllers;
+            _urlHelperFactory = urlHelperFactory;
             _actionContextAccessor = actionContextAccessor;
             //_urlHelper = urlHelper;
         }
@@ -41,7 +45,8 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
-                var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
+                var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+                //var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
 
                 string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
                 string menuUrl = urlHelper.GetMenuUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
