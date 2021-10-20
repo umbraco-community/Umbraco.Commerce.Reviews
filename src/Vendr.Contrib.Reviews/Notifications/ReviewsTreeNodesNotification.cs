@@ -8,6 +8,7 @@ using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Trees;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.BackOffice.Trees;
+using Vendr.Umbraco.Web.Trees;
 
 namespace Vendr.Contrib.Reviews.Notifications
 {
@@ -42,8 +43,8 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
 
-                string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
-                string menuUrl = urlHelper.GetMenuUrl(_apiControllers, notification.GetType(), id, notification.QueryString);
+                string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
+                string menuUrl = urlHelper.GetMenuUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
                 
                 var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
                 {
