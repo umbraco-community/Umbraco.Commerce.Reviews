@@ -32,7 +32,11 @@ namespace Vendr.Contrib.Reviews.Composing
 #endif
 
 #if NETFRAMEWORK
-        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, ILogger logger)
+        public MigrationComponent(
+            IScopeProvider scopeProvider,
+            IMigrationBuilder migrationBuilder,
+            IKeyValueService keyValueService,
+            ILogger logger)
         {
             _scopeProvider = scopeProvider;
             _migrationBuilder = migrationBuilder;
@@ -40,10 +44,15 @@ namespace Vendr.Contrib.Reviews.Composing
             _logger = logger;
         }
 #else
-        public MigrationComponent(IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService)
+        public MigrationComponent(
+            IScopeProvider scopeProvider,
+            IMigrationBuilder migrationBuilder,
+            IMigrationPlanExecutor migrationPlanExecutor,
+            IKeyValueService keyValueService)
         {
             _scopeProvider = scopeProvider;
             _migrationBuilder = migrationBuilder;
+            _migrationPlanExecutor = migrationPlanExecutor;
             _keyValueService = keyValueService;
         }
 #endif

@@ -3,9 +3,11 @@ using Umbraco.Core.Migrations;
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
 using Umbraco.Core.Persistence.SqlSyntax;
 #else
+using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations;
+using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
-using SqlCeSyntaxProvider = Umbraco.Cms.Infrastructure.Persistence.SqlSyntax.SqlServerSyntaxProvider;
+using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
 #endif
 
 namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
@@ -29,9 +31,15 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 
             if (!TableExists(commentTableName))
             {
+#if NETFRAMEWORK
                 var nvarcharMaxType = SqlSyntax is SqlCeSyntaxProvider
                     ? "NTEXT"
                     : "NVARCHAR(MAX)";
+#else
+                var nvarcharMaxType = DatabaseType is NPoco.DatabaseTypes.SqlServerCEDatabaseType
+                    ? "NTEXT"
+                    : "NVARCHAR(MAX)";
+#endif
 
                 // Create table
                 Create.Table(commentTableName)

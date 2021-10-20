@@ -5,9 +5,9 @@ using Umbraco.Core.Persistence.SqlSyntax;
 #else
 using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations;
+using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
 using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
-using SqlCeSyntaxProvider = Umbraco.Cms.Infrastructure.Persistence.SqlSyntax.SqlServerSyntaxProvider;
 #endif
 
 namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
@@ -29,9 +29,16 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 
             if (!TableExists(reviewTableName))
             {
+
+#if NETFRAMEWORK
                 var nvarcharMaxType = SqlSyntax is SqlCeSyntaxProvider
                     ? "NTEXT"
                     : "NVARCHAR(MAX)";
+#else
+                var nvarcharMaxType = DatabaseType is NPoco.DatabaseTypes.SqlServerCEDatabaseType
+                    ? "NTEXT"
+                    : "NVARCHAR(MAX)";
+#endif
 
                 // Create table
                 Create.Table(reviewTableName)
