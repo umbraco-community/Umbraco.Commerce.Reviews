@@ -32,7 +32,7 @@ using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotificati
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
-    [PluginController("VendrReviews")]
+    [PluginController(Constants.Internals.PluginControllerName)]
     public class ReviewApiController : UmbracoAuthorizedApiController
     {
         private readonly IReviewService _reviewService;
