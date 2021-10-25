@@ -1,5 +1,7 @@
 ﻿#if NET
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Umbraco.Cms.Core;
@@ -33,6 +35,20 @@ namespace Vendr.Contrib.Reviews.Notifications
             //_urlHelper = urlHelper;
         }
 
+        public TreeNode CreateTreeNode(string id, string parentId, FormCollection queryStrings, string title, string icon, string routePath)
+        {
+            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+
+            var controllerActionDescriptor =
+                _actionContextAccessor.ActionContext.ActionDescriptor as ControllerActionDescriptor;
+
+            var jsonUrl = urlHelper.GetTreeUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
+            var menuUrl = urlHelper.GetMenuUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
+
+            var node = new TreeNode(id, parentId, jsonUrl, menuUrl) { Name = title, RoutePath = routePath, Icon = icon };
+            return node;
+        }
+
         public void Handle(TreeNodesRenderingNotification notification)
         {
             if (notification.TreeAlias == Vendr.Core.Constants.System.ProductAlias
@@ -45,21 +61,26 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
-                var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+                //var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
                 //var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
 
-                string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
-                string menuUrl = urlHelper.GetMenuUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
+                //string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
+                //string menuUrl = urlHelper.GetMenuUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
                 
-                var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
-                {
-                    Icon = Constants.Trees.Reviews.Icon,
-                    HasChildren = false,
-                    Name = "Reviews",
-                    Path = $"-1,{storeId},{id}",
-                    RoutePath = $"{mainRoute}/review-list/{storeId}",
-                    NodeType = Constants.Trees.Reviews.NodeType
-                };
+                //var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
+                //{
+                //    Icon = Constants.Trees.Reviews.Icon,
+                //    HasChildren = false,
+                //    Name = "Reviews",
+                //    Path = $"-1,{storeId},{id}",
+                //    RoutePath = $"{mainRoute}/review-list/{storeId}",
+                //    NodeType = Constants.Trees.Reviews.NodeType
+                //};
+
+                var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, $"{mainRoute}/review-list/{storeId}");
+
+                reviewsNode.Path = $"-1,{storeId},{id}";
+                reviewsNode.NodeType = Constants.Trees.Reviews.NodeType;
 
                 reviewsNode.AdditionalData.Add("storeId", storeId);
                 reviewsNode.AdditionalData.Add("tree", Vendr.Umbraco.Constants.Trees.Stores.Alias);
