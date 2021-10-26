@@ -45,8 +45,13 @@ namespace Vendr.Contrib.Reviews.Notifications
             var jsonUrl = urlHelper.GetTreeUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
             var menuUrl = urlHelper.GetMenuUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
 
-            var treeNode = new TreeNode(id, parentId, jsonUrl, menuUrl) { Name = title, RoutePath = routePath, Icon = icon };
-            treeNode.hasChildren = hasChildren;
+            var treeNode = new TreeNode(id, parentId, jsonUrl, menuUrl)
+            { 
+                Name = title,
+                RoutePath = routePath,
+                Icon = icon,
+                HasChildren = hasChildren
+            };
 
             return treeNode;
         }

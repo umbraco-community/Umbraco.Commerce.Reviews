@@ -29,7 +29,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         Constants.Trees.Reviews.Alias,
         TreeTitle = "Reviews",
         SortOrder = 10,
-        TreeUse = TreeUse.Main)]
+        TreeUse = TreeUse.None)]
     [PluginController(Constants.Internals.PluginControllerName)]
     public sealed class ReviewTreeController : TreeController
     {
@@ -51,7 +51,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         //TreeGroup = "commerce",
         TreeTitle = "Reviews",
         SortOrder = 10,
-        TreeUse = TreeUse.Main)]
+        TreeUse = TreeUse.None)]
     [PluginController(Constants.Internals.PluginControllerName)]
     public sealed class ReviewTreeController : TreeController
     {
