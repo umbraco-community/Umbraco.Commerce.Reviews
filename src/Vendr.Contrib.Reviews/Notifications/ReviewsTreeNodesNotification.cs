@@ -35,7 +35,7 @@ namespace Vendr.Contrib.Reviews.Notifications
             //_urlHelper = urlHelper;
         }
 
-        public TreeNode CreateTreeNode(string id, string parentId, FormCollection queryStrings, string title, string icon, string routePath)
+        public TreeNode CreateTreeNode(string id, string parentId, FormCollection queryStrings, string title, string icon, bool hasChildren, string routePath)
         {
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
@@ -45,8 +45,10 @@ namespace Vendr.Contrib.Reviews.Notifications
             var jsonUrl = urlHelper.GetTreeUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
             var menuUrl = urlHelper.GetMenuUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
 
-            var node = new TreeNode(id, parentId, jsonUrl, menuUrl) { Name = title, RoutePath = routePath, Icon = icon };
-            return node;
+            var treeNode = new TreeNode(id, parentId, jsonUrl, menuUrl) { Name = title, RoutePath = routePath, Icon = icon };
+            treeNode.hasChildren = hasChildren;
+
+            return treeNode;
         }
 
         public void Handle(TreeNodesRenderingNotification notification)
@@ -58,26 +60,8 @@ namespace Vendr.Contrib.Reviews.Notifications
 
                 var storeId = notification.QueryString["id"];
                 var id = Constants.Trees.Reviews.Id;
-
-                //var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
-
-                //var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
-                //var urlHelper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(_actionContextAccessor.ActionContext);
-
-                //string jsonUrl = urlHelper.GetTreeUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
-                //string menuUrl = urlHelper.GetMenuUrl(_apiControllers, typeof(StoresTreeController), id, notification.QueryString);
                 
-                //var reviewsNode = new TreeNode(id, storeId, jsonUrl, menuUrl)
-                //{
-                //    Icon = Constants.Trees.Reviews.Icon,
-                //    HasChildren = false,
-                //    Name = "Reviews",
-                //    Path = $"-1,{storeId},{id}",
-                //    RoutePath = $"{mainRoute}/review-list/{storeId}",
-                //    NodeType = Constants.Trees.Reviews.NodeType
-                //};
-
-                var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, $"{mainRoute}/review-list/{storeId}");
+                var reviewsNode = CreateTreeNode(id, storeId, notification.QueryString, "Reviews", Constants.Trees.Reviews.Icon, false, $"{mainRoute}/review-list/{storeId}");
 
                 reviewsNode.Path = $"-1,{storeId},{id}";
                 reviewsNode.NodeType = Constants.Trees.Reviews.NodeType;

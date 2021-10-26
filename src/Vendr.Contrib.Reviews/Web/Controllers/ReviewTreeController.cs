@@ -48,6 +48,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 [Tree(
         Vendr.Umbraco.Constants.Sections.Commerce,
         Constants.Trees.Reviews.Alias,
+        //TreeGroup = "commerce",
         TreeTitle = "Reviews",
         SortOrder = 10,
         TreeUse = TreeUse.Main)]
