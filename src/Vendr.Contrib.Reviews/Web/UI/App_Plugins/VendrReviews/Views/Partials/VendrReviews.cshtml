@@ -1,13 +1,11 @@
-﻿@using Vendr.Contrib.Reviews.Api;
-@using System.Configuration;
-@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits UmbracoViewPage
 @{
     var storeId = Guid.TryParse(ViewData["storeId"]?.ToString(), out Guid result) ? result : Guid.Empty;
     var productReference = ViewData["productReference"]?.ToString();
 
     var reviews = VendrReviewsApi.Instance.ReviewService.GetReviewsForProduct(storeId, productReference, 1, 10);
     var avgRating = VendrReviewsApi.Instance.ReviewService.GetAverageRatingForProduct(storeId, productReference);
-    var maxRating = 5;
+    int maxRating = 5;
 
     var isPostback = Request.HttpMethod == "POST";
 }
@@ -201,18 +199,16 @@
             <div class="aggregated-rating-view">
                 <div class="rating">
                     <div class="stars-empty">
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <svg><use xlink:href="#star"></use></svg>
+                        }
                     </div>
                     <div class="stars-fill" style="width: @Math.Round(avgRating / maxRating * 100)%">
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <svg><use xlink:href="#star"></use></svg>
+                        }
                     </div>
                 </div>
                 <div class="reviews-count">@reviews.TotalItems Reviews</div>
@@ -237,11 +233,12 @@
 
                 <div style="display: inline-flex; align-items: center;">
                     <div id="stars" class="stars">
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <button type="button" class="star">
+                                <svg><use xlink:href="#star"></use></svg>
+                            </button>
+                        }
                     </div>
                     <div id="rated"></div>
                 </div>
@@ -297,7 +294,7 @@
             {
                 <div class="review-item">
                     <div class="stars-small">
-                        @for (var i = 0; i < 5; i++)
+                        @for (int i = 0; i < maxRating; i++)
                         {
                             <svg style="@(i < review.Rating ? "fill: #ffa500;" : null)"><use xlink:href="#star"></use></svg>
                         }
