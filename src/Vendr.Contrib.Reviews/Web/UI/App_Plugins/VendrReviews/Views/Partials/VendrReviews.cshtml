@@ -335,26 +335,37 @@
 
 <script src="https://cdn.jsdelivr.net/npm/pristinejs@0.1.9/dist/pristine.min.js" type="text/javascript"></script>
 <script>
-    var btnToggleReview = document.getElementById('btnToggleReview');
-    var reviewFormContainer = document.getElementById('reviewForm');
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const btnToggleReview = document.getElementById('btnToggleReview');
+        const reviewFormContainer = document.getElementById('reviewForm');
 
-    btnToggleReview.addEventListener('click', function (e) {
-        reviewFormContainer.classList.toggle('hidden');
+        const starContainer = document.getElementById('stars');
+        let stars = Array.prototype.slice.call(starContainer.children);
+        let totalStars = stars.length;
+        
+        let rated = document.getElementById('rated');
+
+        btnToggleReview.addEventListener('click', () => {
+            reviewFormContainer.classList.toggle('hidden');
+        });
+
+        starContainer.addEventListener('click', function (e) {
+            const r = totalStars - stars.indexOf(e.target);
+            setRating(stars, rated, r, totalStars);
+        });
+
+        configureValidation();
+
     });
 
-    var starContainer = document.getElementById('stars');
-    var stars = Array.prototype.slice.call(starContainer.children);
-    var totalStars = stars.length;
-    var hdnRating = document.getElementById('hdnRating');
-    var rated = document.getElementById('rated');
-
-    function setRating(r) {
+    function setRating(stars, elem, r, total) {
         hdnRating.value = r;
 
         // Reverse the value as the stars are displayed
         // in reverse order so that we can use the ~
         // css selector
-        var r2 = totalStars - (r - 1);
+        let r2 = total - (r - 1);
         stars.forEach(function (s, i) {
             s.classList.remove('is-selected');
             if (i + 1 == r2) {
@@ -362,15 +373,10 @@
             }
         });
 
-        rated.textContent = 'You have rated ' + r + ' stars';
+        elem.textContent = 'You have rated ' + r + ' stars';
     }
 
-    starContainer.addEventListener('click', function (e) {
-        var r = totalStars - stars.indexOf(e.target);
-        setRating(r);
-    });
-
-    window.onload = function () {
+    function configureValidation() {
 
         let defaultConfig = {
             // class of the parent element where the error/success class is added
@@ -385,16 +391,18 @@
             errorTextClass: 'text-help' 
         };
 
-        var form = document.getElementById("reviewForm");
+        let hdnRating = document.getElementById('hdnRating');
+
+        const form = document.getElementById("reviewForm");
 
         // create the pristine instance
-        var pristine = new Pristine(form, defaultConfig);
+        const pristine = new Pristine(form, defaultConfig);
 
         form.addEventListener('submit', function (e) {
            e.preventDefault();
        
            // check if the form is valid
-           var valid = pristine.validate(); // returns true or false
+           const valid = pristine.validate(); // returns true or false
            if (valid) {
                this.submit();
            }
@@ -405,5 +413,5 @@
         if (hdnRating.value) {
             setRating(parseInt(hdnRating.value));
         }
-    };
+    }
 </script>
