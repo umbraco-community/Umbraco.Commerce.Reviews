@@ -224,7 +224,11 @@
         @using (Html.BeginUmbracoForm("AddReview", "VendrReviews", null, new { id = "reviewForm", @class = "review-form w-full max-w-lg " + (isPostback ? "" : "hidden") }))
         {
             @Html.ValidationSummary(false, "", new { @class = "message message--error" });
-            @Html.AntiForgeryToken();
+
+            if (this.IsUmbraco8())
+            {
+                @Html.AntiForgeryToken();
+            }
 
             <input type="hidden" name="storeId" value="@storeId" />
             <input type="hidden" name="productReference" value="@productReference" />

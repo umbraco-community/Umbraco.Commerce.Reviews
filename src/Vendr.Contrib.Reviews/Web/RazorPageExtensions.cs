@@ -28,5 +28,14 @@ namespace Vendr.Contrib.Reviews.Web
             return view.GetService<IOptions<T>>()?.Value;
 #endif
         }
+
+        public static bool IsUmbraco8(this RazorPage view)
+        {
+#if NETFRAMEWORK
+            return true;
+#else
+            return false;
+#endif
+        }
     }
 }
