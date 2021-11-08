@@ -7,7 +7,9 @@
     var avgRating = VendrReviewsApi.Instance.ReviewService.GetAverageRatingForProduct(storeId, productReference);
     int maxRating = 5;
 
-    var isPostback = Request.HttpMethod == "POST";
+    var settings = this.GetSettings<VendrReviewsSettings>();
+
+    var isPostback = Context.Request.GetMethod() == "POST";
 }
 
 <script type="application/ld+json">
@@ -242,37 +244,37 @@
                     </div>
                     <div id="rated"></div>
                 </div>
-                <input type="hidden" name="rating" id="hdnRating" value="@(Request.Form["rating"])" />
+                <input type="hidden" name="rating" id="hdnRating" value="@(Context.Request.GetFormValue("rating"))" />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Name</label>
-                <input type="text" name="name" placeholder="Enter your name" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["name"])" required />
+                <input type="text" name="name" placeholder="Enter your name" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("name"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Email</label>
                 <small>Your email will not be published.</small>
-                <input type="text" name="email" placeholder="Enter your email" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["email"])" required />
+                <input type="text" name="email" placeholder="Enter your email" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("email"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Title</label>
-                <input type="text" name="title" placeholder="Enter a title for your review" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["title"])" required />
+                <input type="text" name="title" placeholder="Enter a title for your review" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("title"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Your review</label>
-                <textarea rows="5" maxlength="255" name="body" placeholder="Enter you review" class="flex-1 bg-gray-200 px-4 py-2" required>@(Request.Form["body"])</textarea>
+                <textarea rows="5" maxlength="255" name="body" placeholder="Enter you review" class="flex-1 bg-gray-200 px-4 py-2" required>@(Context.Request.GetFormValue("body"))</textarea>
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4">
                 <label class="font-bold mb-1">Do you recommend this product?</label>
                 <small>Optional</small>
                 <div>
-                    <label><input type="radio" name="recommendproduct" value="true" @(Request.Form["recommendproduct"] == "true" ? "checked=\"checked\"" : "") /> Yes</label>
-                    <label><input type="radio" name="recommendproduct" value="false" @(Request.Form["recommendproduct"] == "false" ? "checked=\"checked\"" : "") /> No</label>
+                    <label><input type="radio" name="recommendproduct" value="true" @(Context.Request.GetFormValue("recommendproduct") == "true" ? "checked=\"checked\"" : "") /> Yes</label>
+                    <label><input type="radio" name="recommendproduct" value="false" @(Context.Request.GetFormValue("recommendproduct") == "false" ? "checked=\"checked\"" : "") /> No</label>
                 </div>
             </div>
-            if (!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"]))
+            if (!string.IsNullOrWhiteSpace(settings.HCaptcha.SiteKey))
             {
                 <div class="form-group flex flex-col flex-wrap mb-4">
-                    <div class="h-captcha" data-sitekey="@(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"])"></div>
+                    <div class="h-captcha" data-sitekey="@(settings.HCaptcha.SiteKey)"></div>
                     <script src="https://hcaptcha.com/1/api.js" async defer></script>
                 </div>
             }
