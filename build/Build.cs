@@ -84,7 +84,7 @@ class Build : NukeBuild
     private void CopyUIFiles()
     {
         // Copy UI files
-        CopyDirectoryRecursively(SourceDirectory / "Vendr.Checkout" / "Web" / "UI", ArtifactFilesDirectory);
+        CopyDirectoryRecursively(SourceDirectory / "Vendr.Contrib.Reviews" / "Web" / "UI", ArtifactFilesDirectory);
 
         // Copy package assets
         CopyDirectoryRecursively(RootDirectory / "assets", ArtifactFilesDirectory / "assets");
@@ -108,7 +108,7 @@ class Build : NukeBuild
     private void PackNuGetPackages()
     {
         var nuSpecsDir = BuildProjectDirectory / "NuGet";
-        var nuSpecsFile = nuSpecsDir / $"Vendr.Checkout.nuspec";
+        var nuSpecsFile = nuSpecsDir / $"Vendr.Contrib.Reviews.nuspec";
 
         // Package NuGet package
         NuGetPack(c => c
@@ -118,7 +118,7 @@ class Build : NukeBuild
             .SetProperties(new Dictionary<string, object>
             {
                 { "Configuration", Configuration.ToString() },
-                { "ProjectDirectory", SourceDirectory / "Vendr.Checkout" },
+                { "ProjectDirectory", SourceDirectory / "Vendr.Contrib.Reviews" },
                 { "ArtifactFilesDirectory", ArtifactFilesDirectory }
             })
             .SetOutputDirectory(ArtifactPackagesDirectory));
@@ -127,7 +127,7 @@ class Build : NukeBuild
     private void PackUmbracoPackage()
     {
         var umbracoPackageXmlDir = BuildProjectDirectory / "Umbraco";
-        var vendrUmbracoPackageXmlFile = umbracoPackageXmlDir / $"Checkout.package.xml";
+        var vendrUmbracoPackageXmlFile = umbracoPackageXmlDir / $"Vendr.Contrib.Reviews.package.xml";
 
         UmbPack($"pack {vendrUmbracoPackageXmlFile} -n {{name}}.{{version}}.zip -v {GitVersion.NuGetVersion} -o {ArtifactPackagesDirectory} -p Configuration={Configuration};ArtifactsDirectory={ArtifactsDirectory}", workingDirectory: RootDirectory);
     }
