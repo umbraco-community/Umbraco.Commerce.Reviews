@@ -30,8 +30,8 @@
         <file src="$ArtifactFilesDirectory$\assets\logo-128.png" target="images\icon.png" />
 
         <!-- libs -->
-        <file src="$ProjectDirectory$\bin\$Configuration$\net472\Vendr.Contrib.Reviews.dll" target="lib\net472\Vendr.Checkout.dll" />
-        <file src="$ProjectDirectory$\bin\$Configuration$\net5.0\Vendr.Contrib.Reviews.dll" target="lib\net5.0\Vendr.Checkout.dll" />
+        <file src="$ProjectDirectory$\bin\$Configuration$\net472\Vendr.Contrib.Reviews.dll" target="lib\net472\Vendr.Contrib.Reviews.dll" />
+        <file src="$ProjectDirectory$\bin\$Configuration$\net5.0\Vendr.Contrib.Reviews.dll" target="lib\net5.0\Vendr.Contrib.Reviews.dll" />
 
         <!-- content -->
         <file src="$ArtifactFilesDirectory$\App_Plugins\**\*" target="App_Plugins" />

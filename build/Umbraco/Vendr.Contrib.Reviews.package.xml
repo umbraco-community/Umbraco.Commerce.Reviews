@@ -37,7 +37,7 @@
 
     <files>
         <!-- Core Bin Files -->
-        <file path="src/Vendr.Contrib.Reviews/bin/$Configuration$/net472/Vendr.Contrib.Reviews.dll" orgPath="bin/Vendr.Checkout.dll" />
+        <file path="src/Vendr.Contrib.Reviews/bin/$Configuration$/net472/Vendr.Contrib.Reviews.dll" orgPath="bin/Vendr.Contrib.Reviews.dll" />
 
         <!-- UI Files -->
         <folder path="$ArtifactsDirectory$/files/App_Plugins/VendrReviews" orgPath="App_Plugins/VendrReviews" />
