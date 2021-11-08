@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Razor;
 #endif
 
-namespace Vendr.Checkout.Web
+namespace Vendr.Contrib.Reviews.Web
 {
     public static class RazorPageExtensions
     {
