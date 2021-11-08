@@ -44,19 +44,26 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         private readonly VendrReviewsSettings _settings;
 
 #if NETFRAMEWORK
-        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
-#else
-        public VendrReviewsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
-            ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
-            IVendrApi vendrAPi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
-            : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
-#endif
+        public VendrReviewsController(IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
         {
-            _vendrApi = vendrAPi;
+            _vendrApi = vendrApi;
             _logger = logger;
             _reviewService = reviewService;
             _settings = settings;
         }
+#else
+        public VendrReviewsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
+            ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
+            IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, IOptions<VendrReviewsSettings> settings)
+            : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+
+        {
+            _vendrApi = vendrApi;
+            _logger = logger;
+            _reviewService = reviewService;
+            _settings = settings.Value;
+        }
+#endif
 
         [HttpPost]
         [ValidateAntiForgeryToken]
