@@ -271,7 +271,7 @@
                     <label><input type="radio" name="recommendproduct" value="false" @(Context.Request.GetFormValue("recommendproduct") == "false" ? "checked=\"checked\"" : "") /> No</label>
                 </div>
             </div>
-            if (!string.IsNullOrWhiteSpace(settings.HCaptcha.SiteKey))
+            if (!string.IsNullOrWhiteSpace(settings.HCaptcha?.SiteKey))
             {
                 <div class="form-group flex flex-col flex-wrap mb-4">
                     <div class="h-captcha" data-sitekey="@(settings.HCaptcha.SiteKey)"></div>
