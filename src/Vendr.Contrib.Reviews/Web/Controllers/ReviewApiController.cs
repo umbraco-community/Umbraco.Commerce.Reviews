@@ -207,7 +207,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         [HttpPost]
         public CommentDto SaveComment(CommentDto comment)
         {
-            var entity = comment.Id != Guid.Empty
+            var entity = comment.Id.HasValue && comment.Id != Guid.Empty
                 ? _reviewService.GetReview(comment.ReviewId).Comments.First(x => x.Id == comment.Id)
                 : new Comment(comment.StoreId, comment.ReviewId);
 
