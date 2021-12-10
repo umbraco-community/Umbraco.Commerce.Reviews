@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Umbraco.Web.Models.ContentEditing;
+
+#if NETFRAMEWORK
+using Notification = Umbraco.Web.Models.ContentEditing.Notification;
+#else
+using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
+#endif
 
 namespace Vendr.Contrib.Reviews.Web.Dtos
 {

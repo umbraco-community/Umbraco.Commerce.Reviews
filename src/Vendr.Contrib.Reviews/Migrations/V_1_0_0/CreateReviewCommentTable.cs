@@ -1,7 +1,14 @@
-﻿using Umbraco.Core.Migrations;
+﻿#if NETFRAMEWORK
+using Umbraco.Core.Migrations;
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
 using Umbraco.Core.Persistence.SqlSyntax;
-using Vendr.Contrib.Reviews.Persistence.Dtos;
+#else
+using Umbraco.Cms.Core.Migrations;
+using Umbraco.Cms.Infrastructure.Migrations;
+using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
+using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+#endif
 
 namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
 {
@@ -11,17 +18,28 @@ namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
             : base(context) 
         { }
 
+
+        #if NETFRAMEWORK
         public override void Migrate()
+        #else
+        protected override void Migrate()
+        #endif
         {
-            var commentTableName = Constants.DatabaseSchema.Tables.Comment;
-            var reviewTableName = Constants.DatabaseSchema.Tables.Review;
-            var storeTableName = Core.Constants.DatabaseSchema.Tables.Store;
+            const string commentTableName = Constants.DatabaseSchema.Tables.Comment;
+            const string reviewTableName = Constants.DatabaseSchema.Tables.Review;
+            const string storeTableName = Vendr.Infrastructure.Constants.DatabaseSchema.Tables.Store;
 
             if (!TableExists(commentTableName))
             {
+#if NETFRAMEWORK
                 var nvarcharMaxType = SqlSyntax is SqlCeSyntaxProvider
                     ? "NTEXT"
                     : "NVARCHAR(MAX)";
+#else
+                var nvarcharMaxType = DatabaseType is NPoco.DatabaseTypes.SqlServerCEDatabaseType
+                    ? "NTEXT"
+                    : "NVARCHAR(MAX)";
+#endif
 
                 // Create table
                 Create.Table(commentTableName)

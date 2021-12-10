@@ -5,7 +5,19 @@
     /// </summary>
     public static partial class Constants
     {
-        // generic constants can go here
+        internal static partial class Internals
+        {
+            public const string PluginControllerName = "VendrReviews";
+        }
+
+        public static class System
+        {
+            public const string ProductAlias = "vendrReviews"; 
+            
+            public const string ProductName = "VendrReviews";
+
+            public const string MigrationPlanName = "Vendr.Contrib.Reviews";
+        }
 
         public static class DatabaseSchema
         {
@@ -23,6 +35,11 @@
         {
             public static class Reviews
             {
+                /// <summary>
+                /// Alias for reviews node
+                /// </summary>
+                public const string Alias = "reviews";
+
                 /// <summary>
                 /// Id for reviews node
                 /// </summary>

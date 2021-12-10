@@ -1,7 +1,14 @@
 ﻿using NPoco;
 using System;
+
+#if NETFRAMEWORK
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 using Umbraco.Core.Persistence.DatabaseModelDefinitions;
+#else
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
+#endif
+
 
 namespace Vendr.Contrib.Reviews.Persistence.Dtos
 {

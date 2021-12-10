@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Vendr.Common.Events;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Services;
-using Vendr.Core.Events.Notification;
-using Vendr.Web.Events.Notification;
-using Vendr.Web.Models;
+using Vendr.Umbraco.Web.Events.Notification;
+using Vendr.Umbraco.Web.Models;
 
 namespace Vendr.Contrib.Reviews.Events.Handlers
 {

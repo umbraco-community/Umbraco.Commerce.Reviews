@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vendr.Common;
+using Vendr.Common.Events;
+using Vendr.Common.Models;
 using Vendr.Contrib.Reviews.Events;
-using Vendr.Contrib.Reviews.Persistence;
 using Vendr.Contrib.Reviews.Models;
-using Vendr.Core;
-using Vendr.Core.Events;
-using Vendr.Core.Models;
+using Vendr.Contrib.Reviews.Persistence;
 
 namespace Vendr.Contrib.Reviews.Services.Implement
 {

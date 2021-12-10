@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                                 <div class="card-review-footer">
-                                    <span><em>{{vm.content.name}}</em>&nbsp;<span ng-if="vm.content.email">({{vm.content.email}})</span></span>
+                                    <span><em>{{vm.content.name}}</em>&nbsp;(<a class="color-light-blue" ng-if="vm.content.email" href="{{'mailto:' + vm.content.email}}">{{vm.content.email}}</a>)</span>
                                     <span ng-if="vm.content.verifiedBuyer" class="verified-buyer">
                                         <i class="icon icon-shield" aria-hidden="true"></i> Verified Buyer
                                     </span>

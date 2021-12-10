@@ -1,15 +1,15 @@
-﻿@using Vendr.Contrib.Reviews.Api;
-@using System.Configuration;
-@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits UmbracoViewPage
 @{
     var storeId = Guid.TryParse(ViewData["storeId"]?.ToString(), out Guid result) ? result : Guid.Empty;
     var productReference = ViewData["productReference"]?.ToString();
 
     var reviews = VendrReviewsApi.Instance.ReviewService.GetReviewsForProduct(storeId, productReference, 1, 10);
     var avgRating = VendrReviewsApi.Instance.ReviewService.GetAverageRatingForProduct(storeId, productReference);
-    var maxRating = 5;
+    int maxRating = 5;
 
-    var isPostback = Request.HttpMethod == "POST";
+    var settings = this.GetSettings<VendrReviewsSettings>();
+
+    var isPostback = Context.Request.GetMethod() == "POST";
 }
 
 <script type="application/ld+json">
@@ -180,6 +180,14 @@
     .review-form .form-group > small {
         margin-bottom: 3px;
     }
+
+    .message {
+        padding: 15px;
+    }
+    .message .message--success {
+        border: 1px solid #c0ecc0;
+        background: #edfaed;
+    }
 </style>
 
 <section class="reviews">
@@ -201,18 +209,16 @@
             <div class="aggregated-rating-view">
                 <div class="rating">
                     <div class="stars-empty">
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <svg><use xlink:href="#star"></use></svg>
+                        }
                     </div>
                     <div class="stars-fill" style="width: @Math.Round(avgRating / maxRating * 100)%">
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
-                        <svg><use xlink:href="#star"></use></svg>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <svg><use xlink:href="#star"></use></svg>
+                        }
                     </div>
                 </div>
                 <div class="reviews-count">@reviews.TotalItems Reviews</div>
@@ -226,7 +232,11 @@
         @using (Html.BeginUmbracoForm("AddReview", "VendrReviews", null, new { id = "reviewForm", @class = "review-form w-full max-w-lg " + (isPostback ? "" : "hidden") }))
         {
             @Html.ValidationSummary(false, "", new { @class = "message message--error" });
-            @Html.AntiForgeryToken();
+
+            if (this.IsUmbraco8())
+            {
+                @Html.AntiForgeryToken();
+            }
 
             <input type="hidden" name="storeId" value="@storeId" />
             <input type="hidden" name="productReference" value="@productReference" />
@@ -237,45 +247,46 @@
 
                 <div style="display: inline-flex; align-items: center;">
                     <div id="stars" class="stars">
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
-                        <button type="button" class="star"><svg><use xlink:href="#star"></use></svg></button>
+                        @for (int i = 0; i < maxRating; i++)
+                        {
+                            <button type="button" class="star">
+                                <svg><use xlink:href="#star"></use></svg>
+                            </button>
+                        }
                     </div>
                     <div id="rated"></div>
                 </div>
-                <input type="hidden" name="rating" id="hdnRating" value="@(Request.Form["rating"])" />
+                <input type="hidden" name="rating" id="hdnRating" value="@(Context.Request.GetFormValue("rating"))" />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Name</label>
-                <input type="text" name="name" placeholder="Enter your name" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["name"])" required />
+                <input type="text" name="name" placeholder="Enter your name" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("name"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Email</label>
                 <small>Your email will not be published.</small>
-                <input type="text" name="email" placeholder="Enter your email" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["email"])" required />
+                <input type="text" name="email" placeholder="Enter your email" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("email"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Title</label>
-                <input type="text" name="title" placeholder="Enter a title for your review" class="flex-1 bg-gray-200 px-4 py-2" value="@(Request.Form["title"])" required />
+                <input type="text" name="title" placeholder="Enter a title for your review" class="flex-1 bg-gray-200 px-4 py-2" value="@(Context.Request.GetFormValue("title"))" required />
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4 required">
                 <label class="font-bold mb-1">Your review</label>
-                <textarea rows="5" maxlength="255" name="body" placeholder="Enter you review" class="flex-1 bg-gray-200 px-4 py-2" required>@(Request.Form["body"])</textarea>
+                <textarea rows="5" maxlength="255" name="body" placeholder="Enter you review" class="flex-1 bg-gray-200 px-4 py-2" required>@(Context.Request.GetFormValue("body"))</textarea>
             </div>
             <div class="form-group flex flex-col flex-wrap mb-4">
                 <label class="font-bold mb-1">Do you recommend this product?</label>
                 <small>Optional</small>
                 <div>
-                    <label><input type="radio" name="recommendproduct" value="true" @(Request.Form["recommendproduct"] == "true" ? "checked=\"checked\"" : "") /> Yes</label>
-                    <label><input type="radio" name="recommendproduct" value="false" @(Request.Form["recommendproduct"] == "false" ? "checked=\"checked\"" : "") /> No</label>
+                    <label><input type="radio" name="recommendproduct" value="true" @(Context.Request.GetFormValue("recommendproduct") == "true" ? "checked=\"checked\"" : "") /> Yes</label>
+                    <label><input type="radio" name="recommendproduct" value="false" @(Context.Request.GetFormValue("recommendproduct") == "false" ? "checked=\"checked\"" : "") /> No</label>
                 </div>
             </div>
-            if (!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"]))
+            if (!string.IsNullOrWhiteSpace(settings.HCaptcha?.SiteKey))
             {
                 <div class="form-group flex flex-col flex-wrap mb-4">
-                    <div class="h-captcha" data-sitekey="@(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"])"></div>
+                    <div class="h-captcha" data-sitekey="@(settings.HCaptcha.SiteKey)"></div>
                     <script src="https://hcaptcha.com/1/api.js" async defer></script>
                 </div>
             }
@@ -285,10 +296,10 @@
         }
 
         @{
-            var sucessMessage = TempData["SucessMessage"];
-            if (sucessMessage != null)
+            var successMessage = TempData["SuccessMessage"];
+            if (successMessage != null)
             {
-                <div class="message message--success">@sucessMessage</div>
+                <div class="message message--success">@successMessage</div>
             }
         }
 
@@ -297,7 +308,7 @@
             {
                 <div class="review-item">
                     <div class="stars-small">
-                        @for (var i = 0; i < 5; i++)
+                        @for (int i = 0; i < maxRating; i++)
                         {
                             <svg style="@(i < review.Rating ? "fill: #ffa500;" : null)"><use xlink:href="#star"></use></svg>
                         }
@@ -336,26 +347,37 @@
 
 <script src="https://cdn.jsdelivr.net/npm/pristinejs@0.1.9/dist/pristine.min.js" type="text/javascript"></script>
 <script>
-    var btnToggleReview = document.getElementById('btnToggleReview');
-    var reviewFormContainer = document.getElementById('reviewForm');
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const btnToggleReview = document.getElementById('btnToggleReview');
+        const reviewFormContainer = document.getElementById('reviewForm');
 
-    btnToggleReview.addEventListener('click', function (e) {
-        reviewFormContainer.classList.toggle('hidden');
+        const starContainer = document.getElementById('stars');
+        let stars = Array.prototype.slice.call(starContainer.children);
+        let totalStars = stars.length;
+        
+        let rated = document.getElementById('rated');
+
+        btnToggleReview.addEventListener('click', () => {
+            reviewFormContainer.classList.toggle('hidden');
+        });
+
+        starContainer.addEventListener('click', function (e) {
+            const r = totalStars - stars.indexOf(e.target);
+            setRating(stars, rated, r, totalStars);
+        });
+
+        configureValidation();
+
     });
 
-    var starContainer = document.getElementById('stars');
-    var stars = Array.prototype.slice.call(starContainer.children);
-    var totalStars = stars.length;
-    var hdnRating = document.getElementById('hdnRating');
-    var rated = document.getElementById('rated');
-
-    function setRating(r) {
+    function setRating(stars, elem, r, total) {
         hdnRating.value = r;
 
         // Reverse the value as the stars are displayed
         // in reverse order so that we can use the ~
         // css selector
-        var r2 = totalStars - (r - 1);
+        let r2 = total - (r - 1);
         stars.forEach(function (s, i) {
             s.classList.remove('is-selected');
             if (i + 1 == r2) {
@@ -363,15 +385,10 @@
             }
         });
 
-        rated.textContent = 'You have rated ' + r + ' stars';
+        elem.textContent = 'You have rated ' + r + ' stars';
     }
 
-    starContainer.addEventListener('click', function (e) {
-        var r = totalStars - stars.indexOf(e.target);
-        setRating(r);
-    });
-
-    window.onload = function () {
+    function configureValidation() {
 
         let defaultConfig = {
             // class of the parent element where the error/success class is added
@@ -386,16 +403,18 @@
             errorTextClass: 'text-help' 
         };
 
-        var form = document.getElementById("reviewForm");
+        let hdnRating = document.getElementById('hdnRating');
+
+        const form = document.getElementById("reviewForm");
 
         // create the pristine instance
-        var pristine = new Pristine(form, defaultConfig);
+        const pristine = new Pristine(form, defaultConfig);
 
         form.addEventListener('submit', function (e) {
            e.preventDefault();
        
            // check if the form is valid
-           var valid = pristine.validate(); // returns true or false
+           const valid = pristine.validate(); // returns true or false
            if (valid) {
                this.submit();
            }
@@ -406,5 +425,5 @@
         if (hdnRating.value) {
             setRating(parseInt(hdnRating.value));
         }
-    };
+    }
 </script>

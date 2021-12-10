@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Vendr.Common.Models;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Core.Models;
 

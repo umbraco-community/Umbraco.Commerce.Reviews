@@ -6,7 +6,8 @@
             <name>Vendr.Contrib.Reviews</name>
             <version>0.0.0</version>
             <license url="https://opensource.org/licenses/MIT">MIT</license>
-            <url>https://vendr.net/</url>
+            <url>https://vendr.net/add-ons/vendr-reviews</url>
+            <iconUrl>https://raw.githubusercontent.com/vendrhub/vendr/main/assets/logo-purple-520.png</iconUrl>
             <requirements>
                 <major>8</major>
                 <minor>2</minor>
@@ -34,6 +35,12 @@
     <Actions></Actions>
     <control></control>
 
-    <files></files>
+    <files>
+        <!-- Core Bin Files -->
+        <file path="src/Vendr.Contrib.Reviews/bin/$Configuration$/net472/Vendr.Contrib.Reviews.dll" orgPath="bin/Vendr.Contrib.Reviews.dll" />
+
+        <!-- UI Files -->
+        <folder path="$ArtifactsDirectory$/files/App_Plugins/VendrReviews" orgPath="App_Plugins/VendrReviews" />
+    </files>
     
 </umbPackage>

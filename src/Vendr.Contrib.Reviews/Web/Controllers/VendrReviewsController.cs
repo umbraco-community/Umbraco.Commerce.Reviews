@@ -1,35 +1,77 @@
-﻿using System.Web.Mvc;
-using Umbraco.Web.Mvc;
-using Vendr.Core;
-using Vendr.Contrib.Reviews.Web.Dtos;
-using Vendr.Core.Exceptions;
-using Vendr.Core.Web.Api;
-using Vendr.Contrib.Reviews.Services;
-using Vendr.Contrib.Reviews.Models;
-using System.Configuration;
-using System.Net;
+﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using Vendr.Core.Models;
+using System.Net;
+using System.Text;
+using Vendr.Common.Models;
+using Vendr.Common.Validation;
+using Vendr.Contrib.Reviews.Configuration;
+using Vendr.Contrib.Reviews.Models;
+using Vendr.Contrib.Reviews.Services;
+using Vendr.Contrib.Reviews.Web.Dtos;
+using Vendr.Core.Api;
+using Vendr.Common.Logging;
+
+#if NETFRAMEWORK
+using IActionResult = System.Web.Mvc.ActionResult;
+using Umbraco.Core;
+using System.Web.Mvc;
+using Umbraco.Web;
+using Umbraco.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Core.Cache;
+using Umbraco.Cms.Core.Logging;
+using Umbraco.Cms.Core.Routing;
+using Umbraco.Cms.Web.Website.Controllers;
+using Umbraco.Cms.Web.Common.Filters;
+using Umbraco.Cms.Web.Common.Controllers;
+using Umbraco.Cms.Web.Website.Controllers;
+using Umbraco.Extensions;
+#endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
     public class VendrReviewsController : SurfaceController, IRenderController
-    {
+    { 
         private readonly IVendrApi _vendrApi;
         private readonly IReviewService _reviewService;
+        private readonly ILogger<VendrReviewsController> _logger;
+        private readonly VendrReviewsSettings _settings;
 
-        public VendrReviewsController(IVendrApi vendrAPi, IReviewService reviewService)
+#if NETFRAMEWORK
+        public VendrReviewsController(IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
         {
-            _vendrApi = vendrAPi;
+            _vendrApi = vendrApi;
+            _logger = logger;
             _reviewService = reviewService;
+            _settings = settings;
         }
+#else
+        public VendrReviewsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
+            ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
+            IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, IOptions<VendrReviewsSettings> settings)
+            : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+
+        {
+            _vendrApi = vendrApi;
+            _logger = logger;
+            _reviewService = reviewService;
+            _settings = settings.Value;
+        }
+#endif
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(AddReviewDto dto)
+#if NET
+        [ValidateUmbracoFormRouteString]
+#endif
+        public IActionResult AddReview(AddReviewDto dto)
         {
             try
             {
@@ -66,13 +108,15 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
         private void ValidateCaptcha()
         {
-            if (!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SecretKey"])
-                && !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"])
-                && !string.IsNullOrWhiteSpace(Request.Form["h-captcha-response"]))
+            string hCaptchaResponse = Request.Form["h-captcha-response"];
+
+            if (!string.IsNullOrWhiteSpace(_settings.HCaptcha?.SecretKey)
+                && !string.IsNullOrWhiteSpace(_settings.HCaptcha?.SiteKey)
+                && !string.IsNullOrWhiteSpace(hCaptchaResponse))
             {
                 try
                 {
-                    var postData = $"response={Request.Form["h-captcha-response"]}&secret={ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SecretKey"]}&sitekey={ConfigurationManager.AppSettings["VendrReviews:hCaptcha:SiteKey"]}";
+                    var postData = $"response={hCaptchaResponse}&secret={_settings.HCaptcha.SecretKey}&sitekey={_settings.HCaptcha.SiteKey}";
                     var byteArray = Encoding.UTF8.GetBytes(postData);
 
                     var request = (HttpWebRequest)WebRequest.Create("https://hcaptcha.com/siteverify");
@@ -97,10 +141,12 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
 
                             if (data["success"].Value<bool>() == false)
                             {
-                                _vendrApi.Log.Info<VendrReviewsController>("Failed hCaptcha validation with error codes: ",
-                                    string.Join(", ", data["error-codes"].ToObject<string[]>()));
+                                string[] errorCodes = data["error-codes"].ToObject<string[]>();
 
-                                throw new ValidationException(new[] {
+                                _logger.Info("Failed hCaptcha validation with error codes: ", string.Join(", ", errorCodes));
+
+                                throw new ValidationException(new[]
+                                {
                                     new ValidationError("Failed hCaptcha validation")
                                 });
                             }
@@ -113,7 +159,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _vendrApi.Log.Error<VendrReviewsController>(ex, "Exception was thrown whilst validating a hCaptcha");
+                    _logger.Error(ex, "Exception was thrown whilst validating a hCaptcha");
                 }
             }
         }

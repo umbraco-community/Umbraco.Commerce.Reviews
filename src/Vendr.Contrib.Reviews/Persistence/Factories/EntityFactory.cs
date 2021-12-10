@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Persistence.Dtos;
-using Vendr.Core;
+using Vendr.Extensions;
 
 namespace Vendr.Contrib.Reviews.Persistence.Factories
 {

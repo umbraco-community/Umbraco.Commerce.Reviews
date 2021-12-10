@@ -4,23 +4,35 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Web.Http;
-using Umbraco.Core.Models;
-using Umbraco.Core.Services;
-using Umbraco.Web.Models.ContentEditing;
-using Umbraco.Web.Mvc;
-using Umbraco.Web.WebApi;
 using Vendr.Contrib.Reviews.Helpers;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Services;
 using Vendr.Contrib.Reviews.Web.Dtos;
 using Vendr.Contrib.Reviews.Web.Dtos.Mappers;
 using Vendr.Core.Adapters;
+
+#if NETFRAMEWORK
+using System.Web.Http;
+using Umbraco.Core.Models;
+using Umbraco.Core.Services;
+using Umbraco.Web.Models.ContentEditing;
+using Umbraco.Web.Mvc;
+using Umbraco.Web.WebApi;
 using Notification = Umbraco.Web.Models.ContentEditing.Notification;
+#else
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Core.Models.ContentEditing;
+using Umbraco.Cms.Web.BackOffice.Controllers;
+using Umbraco.Cms.Web.Common.Attributes;
+using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
+#endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
-    [PluginController("VendrReviews")]
+    [PluginController(Constants.Internals.PluginControllerName)]
     public class ReviewApiController : UmbracoAuthorizedApiController
     {
         private readonly IReviewService _reviewService;
@@ -121,6 +133,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         }
 
         [HttpGet]
+#if NETFRAMEWORK
         public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromUri] ReviewStatus[] statuses = null, [FromUri] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 50)
         {
             var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
@@ -130,6 +143,17 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                 Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
             };
         }
+#else
+        public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromQuery] ReviewStatus[] statuses = null, [FromQuery] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 50)
+        {
+            var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
+
+            return new PagedResult<ReviewDto>(result.TotalItems, result.PageNumber, result.PageSize)
+            {
+                Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
+            };
+        }
+#endif
 
         [HttpPost]
         public ReviewEditDto SaveReview(ReviewSaveDto review)
@@ -148,13 +172,19 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             }
             catch (Exception ex)
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex));
+#if NETFRAMEWORK
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed saving review", ex));
+#else
+                throw new BadHttpRequestException("Failed saving review",  ex);
+#endif
             }
 
             var model = EntityMapper.ReviewEntityToEditDto(entity);
 
-            model.Notifications.Add(new Notification(_textService.Localize("speechBubbles/operationSavedHeader"), 
-                string.Empty, NotificationStyle.Success));
+            model.Notifications.Add(new Notification(
+                _textService.Localize("speechBubbles", "operationSavedHeader", Thread.CurrentThread.CurrentUICulture),
+                string.Empty, NotificationStyle.Success)
+            );
 
             return model;
         }
@@ -177,7 +207,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         [HttpPost]
         public CommentDto SaveComment(CommentDto comment)
         {
-            var entity = comment.Id != Guid.Empty
+            var entity = comment.Id.HasValue && comment.Id != Guid.Empty
                 ? _reviewService.GetReview(comment.ReviewId).Comments.First(x => x.Id == comment.Id)
                 : new Comment(comment.StoreId, comment.ReviewId);
 

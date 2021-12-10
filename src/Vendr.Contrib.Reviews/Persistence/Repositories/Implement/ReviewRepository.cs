@@ -2,13 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Persistence.SqlSyntax;
-using Vendr.Contrib.Reviews.Persistence.Factories;
+using Vendr.Common.Models;
 using Vendr.Contrib.Reviews.Models;
 using Vendr.Contrib.Reviews.Persistence.Dtos;
-using Vendr.Core;
-using Vendr.Core.Models;
+using Vendr.Contrib.Reviews.Persistence.Factories;
+using Vendr.Infrastructure;
+
+#if NETFRAMEWORK
+using Umbraco.Core.Persistence;
+using Umbraco.Core.Persistence.SqlSyntax;
+#else
+using Umbraco.Cms.Infrastructure.Persistence;
+using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+using Umbraco.Extensions;
+#endif
 
 namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 {
@@ -31,8 +38,9 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 
         public IEnumerable<Review> GetReviews(Guid[] ids)
         {
-            var sql = Sql()
-                .Select("*")
+            Sql<ISqlContext> sql = Sql();
+
+            sql.Select("*")
                 .From<ReviewDto>()
                 .LeftJoin<CommentDto>().On<CommentDto, ReviewDto>((comment, review) => comment.ReviewId == review.Id)
                 .WhereIn<ReviewDto>(x => x.Id, ids);
@@ -49,8 +57,9 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
             statuses = statuses ?? new ReviewStatus[0];
             ratings = ratings ?? new decimal[0];
 
-            var sql = Sql()
-                .Select("*")
+            Sql<ISqlContext> sql = Sql();
+
+            sql.Select("*")
                 .From<ReviewDto>()
                 .Where<ReviewDto>(x => x.StoreId == storeId);
 
@@ -162,8 +171,9 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 
         public IEnumerable<Comment> GetComments(Guid storeId, Guid[] reviewIds)
         {
-            var sql = Sql()
-                .Select("*")
+            Sql<ISqlContext> sql = Sql();
+
+            sql.Select("*")
                 .From<CommentDto>()
                 .Where<CommentDto>(x => x.StoreId == storeId)
                 .WhereIn<CommentDto>(x => x.ReviewId, reviewIds);

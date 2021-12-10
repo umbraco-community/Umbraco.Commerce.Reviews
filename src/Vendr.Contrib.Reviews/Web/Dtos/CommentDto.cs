@@ -7,7 +7,7 @@ namespace Vendr.Contrib.Reviews.Web.Dtos
     public class CommentDto
     {
         [DataMember(Name = "id")]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         [DataMember(Name = "storeId")]
         public Guid StoreId { get; set; }
