@@ -35,11 +35,11 @@ namespace Vendr.Contrib.Reviews.Composing
             // Register factories
             builder.RegisterUnique<IReviewRepositoryFactory, ReviewRepositoryFactory>();
 
-            // Register event handlers
-            builder.AddVendrReviewsEventHandlers();
-
             // Register services
             builder.Register<ReviewService>(Lifetime.Singleton);
+
+            // Register event handlers
+            builder.AddVendrReviewsEventHandlers();
 
             // Register component
             builder.Components()
