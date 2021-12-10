@@ -10,7 +10,7 @@
             <iconUrl>https://raw.githubusercontent.com/vendrhub/vendr/main/assets/logo-purple-520.png</iconUrl>
             <requirements>
                 <major>8</major>
-                <minor>2</minor>
+                <minor>17</minor>
                 <patch>0</patch>
             </requirements>
         </package>
