@@ -5,9 +5,9 @@
 
     var reviews = VendrReviewsApi.Instance.ReviewService.GetReviewsForProduct(storeId, productReference, 1, 10);
     var avgRating = VendrReviewsApi.Instance.ReviewService.GetAverageRatingForProduct(storeId, productReference);
-    int maxRating = 5;
 
     var settings = this.GetSettings<VendrReviewsSettings>();
+    int maxRating = (int)settings.MaxRating;
 
     var isPostback = Context.Request.GetMethod() == "POST";
 }

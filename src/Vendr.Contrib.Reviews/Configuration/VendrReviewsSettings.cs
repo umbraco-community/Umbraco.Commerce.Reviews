@@ -8,6 +8,8 @@ namespace Vendr.Contrib.Reviews.Configuration
     {
         public HCaptcha HCaptcha { get; set; }
 
+        public decimal MaxRating { get; } = 5;
+
         public VendrReviewsSettings()
         {
 #if NETFRAMEWORK
