@@ -3,6 +3,7 @@ using Vendr.Contrib.Reviews.Configuration;
 using Vendr.Contrib.Reviews.Extensions;
 using Vendr.Contrib.Reviews.Persistence;
 using Vendr.Contrib.Reviews.Services.Implement;
+using Vendr.Contrib.Reviews.Services;
 
 #if NETFRAMEWORK
 using Umbraco.Core;
@@ -29,14 +30,14 @@ namespace Vendr.Contrib.Reviews.Composing
             // Register settings
             builder.Register<VendrReviewsSettings>(Lifetime.Singleton);
 
+            // Register API
+            builder.Register<VendrReviewsApi>(Lifetime.Singleton);
+
             // Register factories
             builder.RegisterUnique<IReviewRepositoryFactory, ReviewRepositoryFactory>();
 
             // Register services
-            builder.Register<ReviewService>(Lifetime.Singleton);
-
-            // Register API
-            builder.Register<VendrReviewsApi>(Lifetime.Singleton);
+            builder.Register<IReviewService, ReviewService>(Lifetime.Singleton);
 
             // Register event handlers
             builder.AddVendrReviewsEventHandlers();
