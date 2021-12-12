@@ -43,9 +43,9 @@ namespace Vendr.Contrib.Reviews
             builder.Services.AddSingleton<VendrReviewsApi>();
 
             // Register event handlers
-#if NET
             builder.AddNotificationHandler<TreeNodesRenderingNotification, ReviewsTreeNodesNotification>();
-#endif
+
+            // Register event handlers
             builder.AddVendrReviewsEventHandlers();
 
             // Register component
