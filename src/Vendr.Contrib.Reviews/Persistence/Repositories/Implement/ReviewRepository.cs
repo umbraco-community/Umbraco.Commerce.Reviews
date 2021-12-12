@@ -131,6 +131,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 
         public void DeleteReview(Guid id)
         {
+            _uow.Database.DeleteMany<CommentDto>().Where(x => x.ReviewId == id);
             _uow.Database.Delete<ReviewDto>("WHERE id = @0", id);
         }
 
