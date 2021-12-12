@@ -235,7 +235,10 @@
 
         @using (Html.BeginUmbracoForm("AddReview", "VendrReviews", null, new { id = "reviewForm", @class = "review-form w-full max-w-lg " + (isPostback ? "" : "hidden") }))
         {
-            @Html.ValidationSummary(false, "", new { @class = "message message--error" });
+            if (ViewData?.ModelState[""]?.Errors?.Any() == true)
+            {
+                @Html.ValidationSummary(false, "", new { @class = "message message--error" });
+            }
 
             if (this.IsUmbraco8())
             {
