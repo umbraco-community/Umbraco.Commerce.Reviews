@@ -109,7 +109,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             return EntityMapper.ReviewEntityToEditDto(entity);
         }
 #else
-[       HttpGet]
+        [HttpGet]
         public ActionResult<ReviewEditDto> GetReview(Guid id)
         {
             var entity = _reviewService.GetReview(id);
