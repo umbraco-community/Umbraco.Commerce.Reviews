@@ -29,14 +29,14 @@ namespace Vendr.Contrib.Reviews.Composing
             // Register settings
             builder.Register<VendrReviewsSettings>(Lifetime.Singleton);
 
-            // Register API
-            builder.Register<VendrReviewsApi>(Lifetime.Singleton);
-
             // Register factories
             builder.RegisterUnique<IReviewRepositoryFactory, ReviewRepositoryFactory>();
 
             // Register services
             builder.Register<ReviewService>(Lifetime.Singleton);
+
+            // Register API
+            builder.Register<VendrReviewsApi>(Lifetime.Singleton);
 
             // Register event handlers
             builder.AddVendrReviewsEventHandlers();
