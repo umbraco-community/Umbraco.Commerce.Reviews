@@ -95,32 +95,27 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             };
         }
 
-        #if NETFRAMEWORK
+        
 
         [HttpGet]
+#if NETFRAMEWORK
         public ReviewEditDto GetReview(Guid id)
-        {
-            var entity = _reviewService.GetReview(id);
-            if (entity == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return EntityMapper.ReviewEntityToEditDto(entity);
-        }
 #else
-        [HttpGet]
         public ActionResult<ReviewEditDto> GetReview(Guid id)
+#endif
         {
             var entity = _reviewService.GetReview(id);
             if (entity == null)
             {
-                return NotFound();
+#if NETFRAMEWORK
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+#else
+        return NotFound();
+#endif
             }
 
             return EntityMapper.ReviewEntityToEditDto(entity);
         }
-#endif
 
         [HttpGet]
         public IEnumerable<ReviewDto> GetReviews(Guid[] ids)
