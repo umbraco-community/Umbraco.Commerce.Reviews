@@ -128,7 +128,7 @@
 
             if (typeof opts === "function") {
                 callback = opts;
-                opts = undefined;
+                opts = null;
             }
 
             if (!opts) {
