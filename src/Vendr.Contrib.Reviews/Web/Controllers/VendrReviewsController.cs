@@ -75,6 +75,15 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         {
             try
             {
+                if (dto.Rating <= 0)
+                {
+                    ModelState.AddModelError("", "Rating for the review is required");
+                    TempData["ErrorMessage"] = "Please select a rating";
+                }
+
+                if (!ModelState.IsValid)
+                    return CurrentUmbracoPage();
+
                 ValidateCaptcha();
 
                 using (var uow = _vendrApi.Uow.Create())

@@ -20,19 +20,15 @@ namespace Vendr.Contrib.Reviews.Notifications
         private readonly UmbracoApiControllerTypeCollection _apiControllers;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IActionContextAccessor _actionContextAccessor;
-        //private readonly IUrlHelper _urlHelper;
 
         public ReviewsTreeNodesNotification(
             UmbracoApiControllerTypeCollection apiControllers,
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor
-            //IUrlHelper urlHelper
-            )
+            IActionContextAccessor actionContextAccessor)
         {
             _apiControllers = apiControllers;
             _urlHelperFactory = urlHelperFactory;
             _actionContextAccessor = actionContextAccessor;
-            //_urlHelper = urlHelper;
         }
 
         public TreeNode CreateTreeNode(string id, string parentId, FormCollection queryStrings, string title, string icon, bool hasChildren, string routePath)

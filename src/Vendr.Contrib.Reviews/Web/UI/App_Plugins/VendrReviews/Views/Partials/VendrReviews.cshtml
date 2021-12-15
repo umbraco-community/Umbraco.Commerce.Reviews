@@ -5,9 +5,9 @@
 
     var reviews = VendrReviewsApi.Instance.ReviewService.GetReviewsForProduct(storeId, productReference, 1, 10);
     var avgRating = VendrReviewsApi.Instance.ReviewService.GetAverageRatingForProduct(storeId, productReference);
-    int maxRating = 5;
 
     var settings = this.GetSettings<VendrReviewsSettings>();
+    int maxRating = (int)settings.MaxRating;
 
     var isPostback = Context.Request.GetMethod() == "POST";
 }
@@ -184,7 +184,11 @@
     .message {
         padding: 15px;
     }
-    .message .message--success {
+    .message.message--error {
+        border: 1px solid #feb2b2;
+        background: #fed7d7;
+    }
+    .message.message--success {
         border: 1px solid #c0ecc0;
         background: #edfaed;
     }
@@ -231,7 +235,10 @@
 
         @using (Html.BeginUmbracoForm("AddReview", "VendrReviews", null, new { id = "reviewForm", @class = "review-form w-full max-w-lg " + (isPostback ? "" : "hidden") }))
         {
-            @Html.ValidationSummary(false, "", new { @class = "message message--error" });
+            if (ViewData?.ModelState[""]?.Errors?.Any() == true)
+            {
+                @Html.ValidationSummary(false, "", new { @class = "message message--error" });
+            }
 
             if (this.IsUmbraco8())
             {

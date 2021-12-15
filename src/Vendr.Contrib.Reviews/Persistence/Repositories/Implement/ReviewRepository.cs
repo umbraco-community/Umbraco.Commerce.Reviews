@@ -65,12 +65,17 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                sql.Where<ReviewDto>(x =>
-                    x.Title.Contains(searchTerm) ||
-                    x.Name.Contains(searchTerm) ||
-                    x.Email.Contains(searchTerm) ||
-                    x.Body.Contains(searchTerm)
-                );
+                //sql.Where<ReviewDto>(x =>
+                //    x.Title.Contains(searchTerm) ||
+                //    x.Name.Contains(searchTerm) ||
+                //    x.Email.Contains(searchTerm) ||
+                //    x.Body.Contains(searchTerm)
+                //);
+
+                sql.Where($"( upper({ReviewDto.TableName}.{SqlSyntax.GetQuotedColumnName("title")}) LIKE upper(@term) " +
+                    $"OR upper({ReviewDto.TableName}.{SqlSyntax.GetQuotedColumnName("name")}) LIKE upper(@term) " +
+                    $"OR upper({ReviewDto.TableName}.{SqlSyntax.GetQuotedColumnName("email")}) LIKE upper(@term) " +
+                    $"OR upper(convert(nvarchar(4000), {ReviewDto.TableName}.{SqlSyntax.GetQuotedColumnName("body")})) LIKE upper(@term))", new { term = $"%{searchTerm}%" });
             }
 
             if (productReferences.Length > 0)
@@ -131,6 +136,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
 
         public void DeleteReview(Guid id)
         {
+            _uow.Database.Delete<CommentDto>("WHERE reviewId = @0", id);
             _uow.Database.Delete<ReviewDto>("WHERE id = @0", id);
         }
 
