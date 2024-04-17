@@ -4,7 +4,7 @@ Simple product reviews for Umbraco Commerce.
 
 <img src="assets/screenshots/product-reviews-list.png" alt="" />
 
-## Instalation
+## Installation
 
 Add the following using statement to your product page view:
 
