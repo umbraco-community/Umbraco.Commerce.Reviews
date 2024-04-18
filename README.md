@@ -9,13 +9,13 @@ Simple product reviews for Umbraco Commerce.
 Add the following using statement to your product page view:
 
 ````csharp
-@using Vendr.Contrib.Reviews.Web;
+@using Umbraco.Commerce.Reviews.Web;
 ````
 
 Then in the location you wish to render the reviews add:
 
 ```csharp
-@Html.RenderVendrReviews(store.Id, Model.Key.ToString())
+@Html.RenderUmbracoCommerceReviews(store.Id, Model.Key.ToString())
 ```
 
 ## TODO
