@@ -1,26 +1,26 @@
-﻿(function() {
+(function() {
 
     'use strict';
 
-    function vendrReviewsResource($http, umbRequestHelper) {
+    function commerceReviewsResource($http, umbRequestHelper) {
 
         return {
 
             getReview: function (id) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetReview", { params: { id: id } }),
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetReview", { params: { id: id } }),
                     "Failed to get review");
             },
 
             getReviews: function (ids) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetReviews", { params: { ids: ids } }),
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetReviews", { params: { ids: ids } }),
                     "Failed to get reviews");
             },
 
             getReviewsForProduct: function (storeId, productReference) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetReviewsForProduct", {
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetReviewsForProduct", {
                         params: {
                             storeId: storeId,
                             productReference: productReference
@@ -31,7 +31,7 @@
 
             getReviewsForCustomer: function (storeId, customerReference) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetReviewsForCustomer", {
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetReviewsForCustomer", {
                         params: {
                             storeId: storeId,
                             customerReference: customerReference
@@ -47,25 +47,25 @@
                 }, opts);
 
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/SearchReviews", { params: params }),
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/SearchReviews", { params: params }),
                     "Failed to search reviews");
             },
 
             saveReview: function (review) {
                 return umbRequestHelper.resourcePromise(
-                    $http.post("/umbraco/backoffice/VendrReviews/ReviewApi/SaveReview", review),
+                    $http.post("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/SaveReview", review),
                     "Failed to save review");
             },
 
             deleteReview: function (id) {
                 return umbRequestHelper.resourcePromise(
-                    $http.delete("/umbraco/backoffice/VendrReviews/ReviewApi/DeleteReview", { params: { id: id } } ),
+                    $http.delete("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/DeleteReview", { params: { id: id } } ),
                     "Failed to delete review");
             },
 
             changeReviewStatus: function (reviewId, status) {
                 return umbRequestHelper.resourcePromise(
-                    $http.post("/umbraco/backoffice/VendrReviews/ReviewApi/ChangeReviewStatus", {
+                    $http.post("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/ChangeReviewStatus", {
                         reviewId: reviewId,
                         status: status
                     }),
@@ -74,7 +74,7 @@
 
             getProductData: function (productReference, languageIsoCode) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetProductData", {
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetProductData", {
                         params: {
                             productReference: productReference,
                             languageIsoCode: languageIsoCode
@@ -84,7 +84,7 @@
 
             getReviewStatuses: function (storeId) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VendrReviews/ReviewApi/GetReviewStatuses", {
+                    $http.get("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/GetReviewStatuses", {
                         params: {
                             storeId: storeId
                         }
@@ -93,7 +93,7 @@
 
             saveComment: function (id, storeId, reviewId, body) {
                 return umbRequestHelper.resourcePromise(
-                    $http.post("/umbraco/backoffice/VendrReviews/ReviewApi/SaveComment", {
+                    $http.post("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/SaveComment", {
                         id: id,
                         storeId: storeId,
                         reviewId: reviewId,
@@ -103,7 +103,7 @@
 
             deleteComment: function (id) {
                 return umbRequestHelper.resourcePromise(
-                    $http.delete("/umbraco/backoffice/VendrReviews/ReviewApi/DeleteComment", { params: { id: id } }),
+                    $http.delete("/umbraco/backoffice/UmbracoCommerceReviews/ReviewApi/DeleteComment", { params: { id: id } }),
                     "Failed to delete comment");
             },
 
@@ -111,6 +111,6 @@
 
     }
 
-    angular.module('vendr.resources').factory('vendrReviewsResource', vendrReviewsResource);
+    angular.module('umbraco.commerce.resources').factory('commerceReviewsResource', commerceReviewsResource);
 
 }());

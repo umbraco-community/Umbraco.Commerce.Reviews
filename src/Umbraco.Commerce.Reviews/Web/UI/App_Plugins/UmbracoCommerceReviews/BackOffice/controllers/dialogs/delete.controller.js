@@ -1,10 +1,10 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
     function DeleteController($scope, $rootScope,
         treeService, navigationService, notificationsService,
-        vendrReviewsResource) {
+        commerceReviewsResource) {
 
         var currentNode = $scope.currentNode;
 
@@ -30,7 +30,7 @@
             vm.error = null;
 
             // Perform the delete
-            vendrReviewsResource.deleteReview(id)
+            commerceReviewsResource.deleteReview(id)
                 .then(function () {
 
                     // Stop tree node animation
@@ -50,7 +50,7 @@
                     notificationsService.success("Deleted", "Review '" + currentNode.name + "' successfully deleted");
 
                     // Notify views
-                    $rootScope.$broadcast("vendrReviewDeleted", {
+                    $rootScope.$broadcast("commerceReviewDeleted", {
                         entityType: nodeType,
                         entityId: id,
                         storeId: storeId,
@@ -76,6 +76,6 @@
 
     }
 
-    angular.module('vendr').controller('Vendr.Reviews.Controllers.Dialog.DeleteController', DeleteController);
+    angular.module('umbraco.commerce').controller('Umbraco.Commerce.Reviews.Controllers.Dialog.DeleteController', DeleteController);
 
 }());

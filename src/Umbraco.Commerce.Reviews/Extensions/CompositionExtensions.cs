@@ -1,11 +1,8 @@
-﻿using Umbraco.Commerce.Reviews.Events;
+using Umbraco.Commerce.Reviews.Events;
 using Umbraco.Commerce.Reviews.Events.Handlers;
-using Umbraco.Commerce.Extensions;
-using Umbraco.Commerce.Cms.Web.Events.Notification;
-using Umbraco.Commerce.Reviews.Notifications;
 using IBuilder = Umbraco.Cms.Core.DependencyInjection.IUmbracoBuilder;
 
-namespace Vendr.Contrib.Reviews.Extensions
+namespace Umbraco.Commerce.Reviews.Extensions
 {
     internal static class CompositionExtensions
     {

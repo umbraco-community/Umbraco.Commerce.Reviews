@@ -1,8 +1,8 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
-    function ReviewDetailsEditController($scope, localizationService, vendrReviewsResource) {
+    function ReviewDetailsEditController($scope, localizationService) {
 
         var defaultConfig = {};
 
@@ -38,6 +38,6 @@
         onInit();
     }
 
-    angular.module('vendr').controller('Vendr.Reviews.Controllers.ReviewDetailsEditController', ReviewDetailsEditController);
+    angular.module('umbraco.commerce').controller('Umbraco.Commerce.Reviews.Controllers.ReviewDetailsEditController', ReviewDetailsEditController);
 
 }());

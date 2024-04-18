@@ -1,9 +1,9 @@
-﻿<div id="vendr-order-edit" ng-controller="Vendr.Reviews.Controllers.ReviewEditController as vm" class="vendr vendr-reviews">
+<div ng-controller="Umbraco.Commerce.Reviews.Controllers.ReviewEditController as vm" class="umbraco-commerce-reviews">
 
     <umb-load-indicator ng-if="vm.page.loading"></umb-load-indicator>
 
     <style>
-      .vendr-header--review-status .umb-panel-header-name:after { content: '{{ vm.content.status.name.replace("'","\\'") }}'; }
+      .umbraco-commerce-header--review-status .umb-panel-header-name:after { content: '{{ vm.content.status.name.replace("'","\\'") }}'; }
     </style>
 
     <form name="contentForm"
@@ -25,15 +25,15 @@
                 on-back="vm.back()"
                 menu="vm.page.menu"
                 hide-menu="vm.page.isInfiniteMode"
-                class="vendr-header vendr-header--review vendr-header--review-status vendr-header--review-status-{{vm.content.status.color}}">
+                class="umbraco-commerce-header umbraco-commerce-header--review umbraco-commerce-header--review-status umbraco-commerce-header--review-status-{{vm.content.status.color}}">
             </umb-editor-header>
 
             <umb-editor-container class="form-horizontal">
 
-                <vendr-license-check></vendr-license-check>
+                <umbraco-commerce-license-check></umbraco-commerce-license-check>
 
-                <div class="vendr-layout vendr-layout--layout1">
-                    <div class="vendr-layout__left">
+                <div class="umbraco-commerce-layout umbraco-commerce-layout--layout1">
+                    <div class="umbraco-commerce-layout__left">
 
                         <umb-box class="card-review">
                             <umb-box-header title="Review">
@@ -72,7 +72,7 @@
                         </umb-box>
 
                     </div>
-                    <div class="vendr-layout__right">
+                    <div class="umbraco-commerce-layout__right">
 
                         <umb-box>
                             <umb-box-header title="Actions"></umb-box-header>

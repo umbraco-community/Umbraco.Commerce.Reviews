@@ -1,50 +1,50 @@
-﻿.vendr-reviews .vendr-table .vendr-table-cell.umb-table__name {
+.umbraco-commerce-reviews .umbraco-commerce-table .umbraco-commerce-table-cell.umb-table__name {
     flex: 1 1 5%;
     min-width: 180px;
 }
 
-.vendr-reviews .vendr-table .vendr-table-cell .rating {
+.umbraco-commerce-reviews .umbraco-commerce-table .umbraco-commerce-table-cell .rating {
     color: #dfdfdf;
     font-size: 20px;
 }
 
-.vendr-reviews .vendr-table .vendr-table-cell .rating > .active {
+.umbraco-commerce-reviews .umbraco-commerce-table .umbraco-commerce-table-cell .rating > .active {
     color: #ffbb3f;
 }
 
-.vendr-reviews .dropdown-menu umb-checkbox[name='filter-ratings'] ~ label > .umb-badge:before {
+.umbraco-commerce-reviews .dropdown-menu umb-checkbox[name='filter-ratings'] ~ label > .umb-badge:before {
     content: "\e0fa";
     color: #ffbb3f;
     font-family: icomoon;
     margin-right: 3px;
 }
 
-.vendr-reviews .dropdown-menu .vendr-bg--light-grey {
+.umbraco-commerce-reviews .dropdown-menu .umbraco-commerce-bg--light-grey {
     background-color: #efefef;
 }
 
-.vendr-reviews .rating {
+.umbraco-commerce-reviews .rating {
     display: flex;
     color: #dfdfdf;
     font-size: 24px;
     user-select: none;
 }
 
-.vendr-reviews .rating > .active {
+.umbraco-commerce-reviews .rating > .active {
     color: #ffbb3f;
 }
 
-.vendr-reviews .card-review .verified-buyer {
+.umbraco-commerce-reviews .card-review .verified-buyer {
     color: #24ac24;
     margin-left: 5px;
 }
 
-.vendr-reviews .card-review .card-review-footer {
+.umbraco-commerce-reviews .card-review .card-review-footer {
     border-top: 1px solid #e9e9eb;
     padding-top: 15px;
 }
 
-.vendr-header--review .umb-panel-header-name {
+.umbraco-commerce-header--review .umb-panel-header-name {
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -52,7 +52,7 @@
     line-height: 20px;
 }
 
-.vendr-header--review .umb-panel-header-locked-description {
+.umbraco-commerce-header--review .umb-panel-header-locked-description {
     color: #817f85;
     font-size: 12px;
     line-height: 12px;
@@ -60,7 +60,7 @@
     margin: 6px 0 0;
 }
 
-.vendr-header--review-status .umb-panel-header-name:after {
+.umbraco-commerce-header--review-status .umb-panel-header-name:after {
     font-size: 13px;
     font-weight: normal;
     padding: 1px 10px;
@@ -70,15 +70,15 @@
     vertical-align: bottom;
 }
 
-.vendr-header--review-status-light-blue .umb-panel-header-name:after {
+.umbraco-commerce-header--review-status-light-blue .umb-panel-header-name:after {
     color: white;
     background-color: #03a9f4;
 }
-.vendr-header--review-status-grey .umb-panel-header-name:after {
+.umbraco-commerce-header--review-status-grey .umb-panel-header-name:after {
     color: #68676b;
     background-color: #d8d7d9;
 }
-.vendr-header--review-status-green .umb-panel-header-name:after {
+.umbraco-commerce-header--review-status-green .umb-panel-header-name:after {
     color: white;
     background-color: #4caf50;
 }

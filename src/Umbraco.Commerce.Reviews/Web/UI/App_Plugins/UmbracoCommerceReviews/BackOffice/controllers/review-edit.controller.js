@@ -1,15 +1,15 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
     function ReviewEditController($scope, $routeParams, $location, $q, formHelper,
         appState, editorState, editorService, notificationsService, navigationService,
-        memberResource, vendrUtils, vendrReviewsResource) {
+        memberResource, ucUtils, commerceReviewsResource) {
 
         var infiniteMode = editorService.getNumberOfEditors() > 0 ? true : false;
         var compositeId = infiniteMode
             ? [$scope.model.config.storeId, $scope.model.config.orderId]
-            : vendrUtils.parseCompositeId($routeParams.id);
+            : ucUtils.parseCompositeId($routeParams.id);
 
         var storeId = compositeId[0];
         var id = compositeId[1];
@@ -45,11 +45,11 @@
         };
 
         vm.back = function () {
-            $location.path("/commerce/vendrreviews/review-list/" + vendrUtils.createCompositeId([storeId]));
+            $location.path("/commerce/umbracocommercereviews/review-list/" + ucUtils.createCompositeId([storeId]));
         };
 
         vm.init = function () {
-            vendrReviewsResource.getReview(id).then(function (review) {
+            commerceReviewsResource.getReview(id).then(function (review) {
 
                 var promises = [];
 
@@ -63,7 +63,7 @@
 
                 // Check to see if we have a product ref, and if so, try and fetch a product
                 if (review.productReference) {
-                    promises.push(vendrReviewsResource.getProductData(review.productReference, null));
+                    promises.push(commerceReviewsResource.getProductData(review.productReference, null));
                 }
                 else {
                     promises.push($q.resolve(null));
@@ -96,7 +96,7 @@
         vm.editReview = function () {
 
             var dialog = {
-                view: '/app_plugins/vendrreviews/backoffice/views/dialogs/details.html',
+                view: '/app_plugins/umbracocommercereviews/backoffice/views/dialogs/details.html',
                 size: 'small',
                 title: 'Edit review',
                 review: vm.content,
@@ -117,7 +117,7 @@
         vm.changeStatus = function () {
 
             var dialog = {
-                view: '/app_plugins/vendrreviews/backoffice/views/dialogs/statuspicker.html',
+                view: '/app_plugins/umbracocommercereviews/backoffice/views/dialogs/statuspicker.html',
                 size: 'small',
                 config: {
                     storeId: storeId
@@ -147,7 +147,7 @@
         }
 
         vm.doChangeStatus = function (status) {
-            vendrReviewsResource.changeReviewStatus(id, status.id).then(function (review) {
+            commerceReviewsResource.changeReviewStatus(id, status.id).then(function (review) {
                 vm.content.status = review.status;
                 notificationsService.success("Status Changed", "Status successfully changed to " + status.name + ".");
             }).catch(function (e) {
@@ -172,7 +172,7 @@
 
             var pathToSync = vm.content.path.slice(0, -1);
 
-            navigationService.syncTree({ tree: "vendr", path: pathToSync, forceReload: true }).then(function (syncArgs) {
+            navigationService.syncTree({ tree: "umbracocommerce", path: pathToSync, forceReload: true }).then(function (syncArgs) {
 
                 var name = vm.content.name;
 
@@ -185,7 +185,7 @@
                     id: id,
                     name: name,
                     nodeType: "Review",
-                    menuUrl: "/umbraco/backoffice/VendrReviews/ReviewTree/GetMenu?application=" + application + "&tree=" + tree + "&nodeType=Review&storeId=" + storeId + "&id=" + id,
+                    menuUrl: "/umbraco/backoffice/UmbracoCommerceReviews/ReviewTree/GetMenu?application=" + application + "&tree=" + tree + "&nodeType=Review&storeId=" + storeId + "&id=" + id,
                     metaData: {
                         treeAlias: tree,
                         storeId: storeId
@@ -193,7 +193,7 @@
                 };
 
                 // Build breadcrumb for parent then append current node
-                var breadcrumb = vendrUtils.createBreadcrumbFromTreeNode(syncArgs.node);
+                var breadcrumb = ucUtils.createBreadcrumbFromTreeNode(syncArgs.node);
                 breadcrumb.push({ name: name, routePath: "" });
                 vm.page.breadcrumb.items = breadcrumb;
 
@@ -206,7 +206,7 @@
                 
                 vm.page.saveButtonState = "busy";
 
-                vendrReviewsResource.saveReview(vm.content).then(function (saved) {
+                commerceReviewsResource.saveReview(vm.content).then(function (saved) {
 
                     if (vm.comment !== null)
                     {
@@ -222,13 +222,13 @@
                         {
                             if (vm.comment.trim().length > 0) {
                                 // Insert or update comment
-                                vendrReviewsResource.saveComment(commentId, storeId, id, vm.comment).then(function (data) {
+                                commerceReviewsResource.saveComment(commentId, storeId, id, vm.comment).then(function (data) {
                                     vm.comment = data.body;
                                 });
                             }
                             else if (commentId !== null && commentId !== undefined) {
                                 // Delete comment
-                                vendrReviewsResource.deleteComment(commentId).then(function (data) {
+                                commerceReviewsResource.deleteComment(commentId).then(function (data) {
                                     vm.comment = null; 
                                 });
                             }
@@ -257,7 +257,7 @@
 
         vm.init();
 
-        $scope.$on("vendrReviewDeleted", function (evt, args) {
+        $scope.$on("commerceReviewDeleted", function (evt, args) {
             if (args.entityType === 'Review' && args.storeId === storeId && args.entityId === id) {
                 vm.back();
             }
@@ -265,6 +265,6 @@
 
     }
 
-    angular.module('vendr').controller('Vendr.Reviews.Controllers.ReviewEditController', ReviewEditController);
+    angular.module('umbraco.commerce').controller('Umbraco.Commerce.Reviews.Controllers.ReviewEditController', ReviewEditController);
 
 }());

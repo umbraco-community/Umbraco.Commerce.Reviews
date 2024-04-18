@@ -1,8 +1,8 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
-    function ReviewStatusPickerController($scope, vendrReviewsResource) {
+    function ReviewStatusPickerController($scope, commerceReviewsResource) {
 
         var defaultConfig = {
             title: "Select a status",
@@ -15,7 +15,7 @@
         vm.config = angular.extend({}, defaultConfig, $scope.model.config);
 
         vm.loadItems = function () {
-            return vendrReviewsResource.getReviewStatuses(vm.config.storeId);
+            return commerceReviewsResource.getReviewStatuses(vm.config.storeId);
         };
 
         vm.select = function (item) {
@@ -32,6 +32,6 @@
         };
     }
 
-    angular.module('vendr').controller('Vendr.Reviews.Controllers.ReviewStatusPickerController', ReviewStatusPickerController);
+    angular.module('umbraco.commerce').controller('Umbraco.Commerce.Reviews.Controllers.ReviewStatusPickerController', ReviewStatusPickerController);
 
 }());

@@ -1,10 +1,10 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
-    function ReviewListController($scope, $routeParams, $location, $q, appState, vendrReviewsResource, navigationService, vendrUtils, vendrRouteCache, vendrLocalStorage) {
+    function ReviewListController($scope, $routeParams, $location, $q, appState, commerceReviewsResource, navigationService, ucUtils, ucRouteCache, ucLocalStorage) {
 
-        var compositeId = vendrUtils.parseCompositeId($routeParams.id);
+        var compositeId = ucUtils.parseCompositeId($routeParams.id);
         var storeId = compositeId[0];
 
         var vm = this;
@@ -30,8 +30,8 @@
                     alias: 'statuses',
                     localStorageKey: 'store_' + storeId + '_reviewStatusFilter',
                     getFilterOptions: function () {
-                        return vendrRouteCache.getOrFetch("store_" + storeId + "_reviewStatuses", function () {
-                            return vendrReviewsResource.getReviewStatuses(storeId);
+                        return ucRouteCache.getOrFetch("store_" + storeId + "_reviewStatuses", function () {
+                            return commerceReviewsResource.getReviewStatuses(storeId);
                         })
                         .then(function (items) {
                             return items.map(function (itm) {
@@ -64,7 +64,7 @@
                     name: 'Delete',
                     icon: 'icon-trash',
                     doAction: function (bulkItem) {
-                        return vendrReviewsResource.deleteReview(bulkItem.id);
+                        return commerceReviewsResource.deleteReview(bulkItem.id);
                     },
                     getConfirmMessage: function (total) {
                         return $q.resolve("Are you sure you want to delete " + total + " " + (total > 1 ? "items" : "item") + "?");
@@ -95,10 +95,10 @@
         vm.options.filters.forEach(fltr => {
             Object.defineProperty(fltr, "value", {
                 get: function () {
-                    return vendrLocalStorage.get(fltr.localStorageKey) || [];
+                    return ucLocalStorage.get(fltr.localStorageKey) || [];
                 },
                 set: function (value) {
-                    vendrLocalStorage.set(fltr.localStorageKey, value);
+                    ucLocalStorage.set(fltr.localStorageKey, value);
                 }
             });
 
@@ -147,9 +147,9 @@
             });
 
             // Perform search
-            vendrReviewsResource.searchReviews(storeId, opts).then(function (entities) {
+            commerceReviewsResource.searchReviews(storeId, opts).then(function (entities) {
                 entities.items.forEach(function (itm) {
-                    itm.routePath = '/commerce/vendrreviews/review-edit/' + vendrUtils.createCompositeId([storeId, itm.id]);
+                    itm.routePath = '/commerce/umbracocommercereviews/review-edit/' + ucUtils.createCompositeId([storeId, itm.id]);
                 });
                 vm.options.items = entities;
                 if (callback) {
@@ -160,9 +160,9 @@
 
         vm.init = function () {
 
-            navigationService.syncTree({ tree: "vendr", path: "-1," + storeId + ",100", forceReload: true }).then(function (syncArgs) {
+            navigationService.syncTree({ tree: "umbracocommerce", path: "-1," + storeId + ",100", forceReload: true }).then(function (syncArgs) {
                 vm.page.menu.currentNode = syncArgs.node;
-                vm.page.breadcrumb.items = vendrUtils.createBreadcrumbFromTreeNode(syncArgs.node);
+                vm.page.breadcrumb.items = ucUtils.createBreadcrumbFromTreeNode(syncArgs.node);
                 vm.loadItems({
                     pageNumber: 1
                 }, function () {
@@ -174,7 +174,7 @@
 
         vm.init();
 
-        var onVendrReviewEvent = function (evt, args) {
+      var onCommerceReviewEvent = function (evt, args) {
             if (args.entityType === 'Review' && args.storeId === storeId) {
                 vm.page.loading = true;
                 vm.loadItems({
@@ -185,9 +185,9 @@
             }
         };
 
-        $scope.$on("vendrReviewDeleted", onVendrReviewEvent);
+        $scope.$on("commerceReviewDeleted", onCommerceReviewEvent);
     }
 
-    angular.module('vendr').controller('Vendr.Reviews.Controllers.ReviewListController', ReviewListController);
+    angular.module('umbraco.commerce').controller('Umbraco.Commerce.Reviews.Controllers.ReviewListController', ReviewListController);
 
 }());
