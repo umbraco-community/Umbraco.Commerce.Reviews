@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Vendr.Contrib.Reviews.Web.Dtos
+namespace Umbraco.Commerce.Reviews.Web.Dtos
 {
     [DataContract(Name = "reviewStatus", Namespace = "")]
     public class ReviewStatusDto

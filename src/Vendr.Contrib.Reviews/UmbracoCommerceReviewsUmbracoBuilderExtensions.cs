@@ -1,6 +1,4 @@
-﻿#if NET
-
-using System;
+﻿using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core;
@@ -17,23 +15,17 @@ using Vendr.Contrib.Reviews.Persistence;
 using Vendr.Contrib.Reviews.Services;
 using Vendr.Contrib.Reviews.Services.Implement;
 
-namespace Vendr.Contrib.Reviews
+namespace Umbraco.Commerce.Reviews
 {
-    // ================================================================
-    // IMPORTANT! Whatever you change here, be sure to also update the
-    // v8 equivilent in /Composing/VendrReviewsComposer.cs
-    // ================================================================
-
-    public static class VendrReviewsUmbracoBuilderExtensions
+    public static class UmbracoCommerceReviewsUmbracoBuilderExtensions
     {
-        public static IUmbracoBuilder AddVendrReviews(this IUmbracoBuilder builder, Action<VendrReviewsSettings> defaultOptions = default)
+        public static IUmbracoBuilder AddUmbracoCommerceReviews(this IUmbracoBuilder builder, Action<UmbracoCommerceReviewsSettings> defaultOptions = default)
         {
             // Register configuration
-            var options = builder.Services.AddOptions<VendrReviewsSettings>()
-                .Bind(builder.Config.GetSection(Constants.System.ProductName));
+            var options = builder.Services.AddOptions<UmbracoCommerceReviewsSettings>()
+                .Bind(builder.Config.GetSection("Umbraco:Commerce:Reviews"));
 
-            if (defaultOptions != default)
-                options.Configure(defaultOptions);
+            options.ValidateDataAnnotations();
 
             options.ValidateDataAnnotations();
 
@@ -56,5 +48,3 @@ namespace Vendr.Contrib.Reviews
         }
     }
 }
-
-#endif

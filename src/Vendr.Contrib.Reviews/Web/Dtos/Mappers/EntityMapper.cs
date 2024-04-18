@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Vendr.Contrib.Reviews.Helpers;
-using Vendr.Contrib.Reviews.Models;
+﻿using Umbraco.Commerce.Reviews.Helpers;
+using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Web.Dtos.Mappers
+namespace Umbraco.Commerce.Reviews.Web.Dtos.Mappers
 {
     public static class EntityMapper
     {
-        public static ReviewDto ReviewEntityToDto(Review entity, ReviewDto dto = null)
+        public static ReviewDto? ReviewEntityToDto(Review entity, ReviewDto? dto = null)
         {
             if (entity == null) return null;
 
@@ -33,11 +31,11 @@ namespace Vendr.Contrib.Reviews.Web.Dtos.Mappers
             return dto;
         }
 
-        public static ReviewEditDto ReviewEntityToEditDto(Review entity, ReviewEditDto dto = null)
+        public static ReviewEditDto? ReviewEntityToEditDto(Review entity, ReviewEditDto? dto = null)
         {
             if (entity == null) return null;
 
-            dto = dto ?? new ReviewEditDto();
+            dto ??= new ReviewEditDto();
 
             ReviewEntityToDto(entity, dto);
 
@@ -75,12 +73,12 @@ namespace Vendr.Contrib.Reviews.Web.Dtos.Mappers
             };
         }
 
-        public static CommentDto CommentEntityToDto(Comment entity, CommentDto dto = null)
+        public static CommentDto? CommentEntityToDto(Comment entity, CommentDto? dto = null)
         {
             if (entity == null)
                 return null;
 
-            dto = dto ?? new CommentDto();
+            dto ??= new CommentDto();
 
             dto.Id = entity.Id;
             dto.StoreId = entity.StoreId;

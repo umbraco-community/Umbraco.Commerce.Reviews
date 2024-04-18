@@ -1,0 +1,31 @@
+{
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "AuthorDetails": {
+    "Name": "Umbraco Community",
+    "Description": "Umbraco Community",
+    "Url": "https://our.umbraco.com",
+    "ImageUrl": "https://avatars.githubusercontent.com/u/1419552?s=200&v=4"
+  },
+  "Category": "Commerce",
+  "LicenseTypes": [
+    "Free"
+  ],
+  "DocumentationUrl": "",
+  "IssueTrackerUrl": "https://github.com/umbraco-community/Umbraco.Commerce.Wishlists/issues",
+  "Description": "A drop in reviews solution for Umbraco Commerce.",
+  "PackageType": "Package",
+  "PackagesByAuthor": [],
+  "RelatedPackages": [
+    {
+      "PackageId": "Umbraco.Commerce",
+      "Description": "The ecommerce solution by Umbraco HQ"
+    }
+  ],
+  "Tags": [
+    "umbraco",
+    "ecommerce",
+    "reviews"
+  ],
+  "Screenshots": [
+  ]
+}

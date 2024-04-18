@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Vendr.Contrib.Reviews.Models
+﻿namespace Umbraco.Commerce.Reviews.Models
 {
     public class Review
     {
@@ -11,7 +8,7 @@ namespace Vendr.Contrib.Reviews.Models
 
         public string ProductReference { get; internal set; }
 
-        public string CustomerReference { get; internal set; }
+        public string? CustomerReference { get; internal set; }
 
         public decimal Rating { get; set; }
 
@@ -39,11 +36,11 @@ namespace Vendr.Contrib.Reviews.Models
             : this(Guid.Empty, storeId, productReference, null)
         { }
 
-        public Review(Guid storeId, string productReference, string customerReference)
+        public Review(Guid storeId, string productReference, string? customerReference)
             : this(Guid.Empty, storeId, productReference, customerReference)
         { }
 
-        public Review(Guid id, Guid storeId, string productReference, string customerReference)
+        public Review(Guid id, Guid storeId, string productReference, string? customerReference)
         {
             Id = id;
             StoreId = storeId;

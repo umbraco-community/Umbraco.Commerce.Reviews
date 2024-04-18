@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-#if NETFRAMEWORK
-using Notification = Umbraco.Web.Models.ContentEditing.Notification;
-#else
+﻿using System.Runtime.Serialization;
 using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
-#endif
 
-namespace Vendr.Contrib.Reviews.Web.Dtos
+namespace Umbraco.Commerce.Reviews.Web.Dtos
 {
     [DataContract(Name = "review", Namespace = "")]
     public class ReviewEditDto : ReviewDto

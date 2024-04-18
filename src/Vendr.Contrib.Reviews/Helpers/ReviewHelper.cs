@@ -1,6 +1,6 @@
-﻿using Vendr.Contrib.Reviews.Models;
+﻿using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Helpers
+namespace Umbraco.Commerce.Reviews.Helpers
 {
     internal static class ReviewHelper
     {

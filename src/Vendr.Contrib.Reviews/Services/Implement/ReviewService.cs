@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Vendr.Common;
-using Vendr.Common.Events;
-using Vendr.Common.Models;
-using Vendr.Contrib.Reviews.Events;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Persistence;
+﻿using Umbraco.Commerce.Common;
+using Umbraco.Commerce.Common.Events;
+using Umbraco.Commerce.Common.Models;
+using Umbraco.Commerce.Reviews.Events;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Persistence;
 
-namespace Vendr.Contrib.Reviews.Services.Implement
+namespace Umbraco.Commerce.Reviews.Services.Implement
 {
     public class ReviewService : IReviewService
     {
@@ -75,7 +72,7 @@ namespace Vendr.Contrib.Reviews.Services.Implement
             return results;
         }
 
-        public PagedResult<Review> GetReviewsForCustomer(Guid storeId, string customerReference, string productReference = null, long pageNumber = 1, long pageSize = 50)
+        public PagedResult<Review> GetReviewsForCustomer(Guid storeId, string customerReference, string? productReference = null, long pageNumber = 1, long pageSize = 50)
         {
             PagedResult<Review> results;
 
@@ -94,7 +91,7 @@ namespace Vendr.Contrib.Reviews.Services.Implement
             return results;
         }
 
-        public PagedResult<Review> SearchReviews(Guid storeId, string searchTerm = null, ReviewStatus[] statuses = null, decimal[] ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50)
+        public PagedResult<Review> SearchReviews(Guid storeId, string? searchTerm = null, ReviewStatus[]? statuses = null, decimal[]? ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50)
         {
             PagedResult<Review> results;
 

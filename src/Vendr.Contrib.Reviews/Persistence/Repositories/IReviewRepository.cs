@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Vendr.Common.Models;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Core.Models;
+﻿using Umbraco.Commerce.Common.Models;
+using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Persistence.Repositories
+namespace Umbraco.Commerce.Reviews.Persistence.Repositories
 {
     public interface IReviewRepository : IDisposable
     {

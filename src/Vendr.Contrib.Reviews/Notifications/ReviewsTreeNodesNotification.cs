@@ -1,19 +1,14 @@
-﻿#if NET
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Events;
-using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Trees;
-using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.BackOffice.Trees;
-using Vendr.Umbraco.Web.Trees;
 
-namespace Vendr.Contrib.Reviews.Notifications
+namespace Umbraco.Commerce.Reviews.Notifications
 {
     public class ReviewsTreeNodesNotification : INotificationHandler<TreeNodesRenderingNotification>
     {
@@ -33,13 +28,13 @@ namespace Vendr.Contrib.Reviews.Notifications
 
         public TreeNode CreateTreeNode(string id, string parentId, FormCollection queryStrings, string title, string icon, bool hasChildren, string routePath)
         {
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor?.ActionContext);
 
             var controllerActionDescriptor =
                 _actionContextAccessor.ActionContext.ActionDescriptor as ControllerActionDescriptor;
 
-            var jsonUrl = urlHelper.GetTreeUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
-            var menuUrl = urlHelper.GetMenuUrl(_apiControllers, controllerActionDescriptor.ControllerTypeInfo, id, queryStrings);
+            var jsonUrl = urlHelper.GetTreeUrl(_apiControllers, controllerActionDescriptor?.ControllerTypeInfo, id, queryStrings);
+            var menuUrl = urlHelper.GetMenuUrl(_apiControllers, controllerActionDescriptor?.ControllerTypeInfo, id, queryStrings);
 
             var treeNode = new TreeNode(id, parentId, jsonUrl, menuUrl)
             { 
@@ -79,5 +74,3 @@ namespace Vendr.Contrib.Reviews.Notifications
         }
     }
 }
-
-#endif

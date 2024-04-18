@@ -1,14 +1,9 @@
-﻿using Vendr.Contrib.Reviews.Events;
-using Vendr.Contrib.Reviews.Events.Handlers;
-using Vendr.Extensions;
-using Vendr.Umbraco.Web.Events.Notification;
-
-#if NETFRAMEWORK
-using IBuilder = Umbraco.Core.Composing.Composition;
-#else
-using Vendr.Contrib.Reviews.Notifications;
+﻿using Umbraco.Commerce.Reviews.Events;
+using Umbraco.Commerce.Reviews.Events.Handlers;
+using Umbraco.Commerce.Extensions;
+using Umbraco.Commerce.Cms.Web.Events.Notification;
+using Umbraco.Commerce.Reviews.Notifications;
 using IBuilder = Umbraco.Cms.Core.DependencyInjection.IUmbracoBuilder;
-#endif
 
 namespace Vendr.Contrib.Reviews.Extensions
 {

@@ -1,4 +1,4 @@
-﻿namespace Vendr.Contrib.Reviews
+﻿namespace Umbraco.Commerce.Reviews
 {
     /// <summary>
     /// Constants all the identifiers
@@ -7,21 +7,21 @@
     {
         internal static partial class Internals
         {
-            public const string PluginControllerName = "VendrReviews";
+            public const string PluginControllerName = "UmbracoCommerceReviews";
         }
 
         public static class System
         {
-            public const string ProductAlias = "vendrReviews"; 
+            public const string ProductAlias = "umbracoCommerceReviews"; 
             
-            public const string ProductName = "VendrReviews";
+            public const string ProductName = "UmbracoCommerceReviews";
 
-            public const string MigrationPlanName = "Vendr.Contrib.Reviews";
+            public const string MigrationPlanName = "Umbraco.Commerce.Reviews";
         }
 
         public static class DatabaseSchema
         {
-            public const string TableNamePrefix = "vendr";
+            public const string TableNamePrefix = "umbracoCommerce";
 
             public static class Tables
             {

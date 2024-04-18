@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vendr.Contrib.Reviews.Models
+﻿namespace Umbraco.Commerce.Reviews.Models
 {
     public class Comment
     {

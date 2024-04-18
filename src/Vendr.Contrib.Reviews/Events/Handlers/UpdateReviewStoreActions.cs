@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Vendr.Common.Events;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Services;
-using Vendr.Umbraco.Web.Events.Notification;
-using Vendr.Umbraco.Web.Models;
+using Umbraco.Commerce.Cms.Web.Events.Notification;
+using Umbraco.Commerce.Cms.Web.Models;
+using Umbraco.Commerce.Common.Events;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Services;
+using Umbraco.Commerce.Umbraco.Web.Events.Notification;
+using Umbraco.Commerce.Umbraco.Web.Models;
 
-namespace Vendr.Contrib.Reviews.Events.Handlers
+namespace Umbraco.Commerce.Reviews.Events.Handlers
 {
     public class UpdateReviewStoreActions : NotificationEventHandlerBase<StoreActionsRenderingNotification>
     {

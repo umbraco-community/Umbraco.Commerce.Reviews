@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Persistence.Dtos;
-using Vendr.Extensions;
+﻿using Umbraco.Commerce.Extensions;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Persistence.Dtos;
 
-namespace Vendr.Contrib.Reviews.Persistence.Factories
+namespace Umbraco.Commerce.Reviews.Persistence.Factories
 {
     internal static class EntityFactory
     {

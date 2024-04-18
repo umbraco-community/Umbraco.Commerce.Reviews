@@ -1,23 +1,13 @@
 ﻿using NPoco;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Vendr.Common.Models;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Persistence.Dtos;
-using Vendr.Contrib.Reviews.Persistence.Factories;
-using Vendr.Infrastructure;
-
-#if NETFRAMEWORK
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Persistence.SqlSyntax;
-#else
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
+using Umbraco.Commerce.Common.Models;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Persistence.Dtos;
+using Umbraco.Commerce.Reviews.Persistence.Factories;
 using Umbraco.Extensions;
-#endif
 
-namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
+namespace Umbraco.Commerce.Reviews.Persistence.Repositories.Implement
 {
     internal class ReviewRepository : RepositoryBase, IReviewRepository
     {
@@ -50,12 +40,12 @@ namespace Vendr.Contrib.Reviews.Persistence.Repositories.Implement
             return data.Select(EntityFactory.BuildEntity).ToList();
         }
 
-        public PagedResult<Review> SearchReviews(Guid storeId, string searchTerm = null, string[] productReferences = null, string[] customerReferences = null, ReviewStatus[] statuses = null, decimal[] ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50)
+        public PagedResult<Review> SearchReviews(Guid storeId, string? searchTerm = null, string[]? productReferences = null, string[]? customerReferences = null, ReviewStatus[]? statuses = null, decimal[]? ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50)
         {
-            productReferences = productReferences ?? new string[0];
-            customerReferences = customerReferences ?? new string[0];
-            statuses = statuses ?? new ReviewStatus[0];
-            ratings = ratings ?? new decimal[0];
+            productReferences ??= Array.Empty<string>();
+            customerReferences ??= Array.Empty<string>();
+            statuses ??= Array.Empty<ReviewStatus>();
+            ratings ??= Array.Empty<decimal>();
 
             Sql<ISqlContext> sql = Sql();
 

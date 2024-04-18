@@ -1,18 +1,9 @@
 ﻿using NPoco;
-using System;
-using System.Collections.Generic;
-
-#if NETFRAMEWORK
-using Umbraco.Core.Persistence.DatabaseAnnotations;
-using Umbraco.Core.Persistence.DatabaseModelDefinitions;
-using ConstraintAttribute = Umbraco.Core.Persistence.DatabaseAnnotations.ConstraintAttribute;
-#else
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
 using ConstraintAttribute = Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations.ConstraintAttribute;
-#endif
 
-namespace Vendr.Contrib.Reviews.Persistence.Dtos
+namespace Umbraco.Commerce.Reviews.Persistence.Dtos
 {
     [TableName(TableName)]
     [PrimaryKey("id", AutoIncrement = false)]
@@ -32,7 +23,7 @@ namespace Vendr.Contrib.Reviews.Persistence.Dtos
 
         [Column("customerReference")]
         [NullSetting(NullSetting = NullSettings.Null)]
-        public string CustomerReference { get; set; }
+        public string? CustomerReference { get; set; }
 
         [Column("rating")]
         public decimal Rating { get; set; }

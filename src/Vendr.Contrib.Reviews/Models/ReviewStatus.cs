@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 
-namespace Vendr.Contrib.Reviews.Models
+namespace Umbraco.Commerce.Reviews.Models
 {
     [DataContract]
     [JsonConverter(typeof(StringEnumConverter))]

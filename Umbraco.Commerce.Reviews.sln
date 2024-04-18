@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29424.173
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vendr.Contrib.Reviews", "src\Vendr.Contrib.Reviews\Vendr.Contrib.Reviews.csproj", "{41CB18E9-1791-4F4C-A3E7-EF32CF69766E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{A5B62501-8FDC-4788-AFCF-20C1D29D2C8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco.Commerce.Reviews", "src\Vendr.Contrib.Reviews\Umbraco.Commerce.Reviews.csproj", "{41CB18E9-1791-4F4C-A3E7-EF32CF69766E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +15,6 @@ Global
 		{41CB18E9-1791-4F4C-A3E7-EF32CF69766E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41CB18E9-1791-4F4C-A3E7-EF32CF69766E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41CB18E9-1791-4F4C-A3E7-EF32CF69766E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5B62501-8FDC-4788-AFCF-20C1D29D2C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5B62501-8FDC-4788-AFCF-20C1D29D2C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

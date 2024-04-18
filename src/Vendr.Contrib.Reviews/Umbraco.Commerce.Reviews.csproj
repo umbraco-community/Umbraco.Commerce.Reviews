@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Title>Umbraco Commerce Reviews</Title>
+		<TargetFramework>net6.0</TargetFramework>
+		<Description>A drop in reviews solution for Umbraco Commerce.</Description>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageReadmeFile>README-nuget.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/umbraco-community/Umbraco.Commerce.Reviews</RepositoryUrl>
+		<PackageTags>umbraco commerce reviews umbraco-marketplace</PackageTags>
+		<Copyright>Copyright © Umbraco Community $([System.DateTime]::Today.ToString('yyyy'))</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Umbraco.Cms" />
+		<PackageReference Include="Umbraco.Commerce" />
+	</ItemGroup>
+
+</Project>

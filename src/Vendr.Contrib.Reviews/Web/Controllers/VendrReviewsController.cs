@@ -1,76 +1,50 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
-using Vendr.Common.Models;
-using Vendr.Common.Validation;
-using Vendr.Contrib.Reviews.Configuration;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Services;
-using Vendr.Contrib.Reviews.Web.Dtos;
-using Vendr.Core.Api;
-using Vendr.Common.Logging;
-
-#if NETFRAMEWORK
-using IActionResult = System.Web.Mvc.ActionResult;
-using Umbraco.Core;
-using System.Web.Mvc;
-using Umbraco.Web;
-using Umbraco.Web.Mvc;
-#else
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Infrastructure.Persistence;
-using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Routing;
-using Umbraco.Cms.Web.Website.Controllers;
-using Umbraco.Cms.Web.Common.Filters;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common.Controllers;
+using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Website.Controllers;
+using Umbraco.Commerce.Common.Logging;
+using Umbraco.Commerce.Common.Models;
+using Umbraco.Commerce.Common.Validation;
+using Umbraco.Commerce.Core.Api;
+using Umbraco.Commerce.Reviews.Configuration;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Services;
 using Umbraco.Extensions;
-#endif
 
 namespace Vendr.Contrib.Reviews.Web.Controllers
 {
     public class VendrReviewsController : SurfaceController, IRenderController
     { 
-        private readonly IVendrApi _vendrApi;
+        private readonly IUmbracoCommerceApi _commerceApi;
         private readonly IReviewService _reviewService;
         private readonly ILogger<VendrReviewsController> _logger;
-        private readonly VendrReviewsSettings _settings;
+        private readonly UmbracoCommerceReviewsSettings _settings;
 
-#if NETFRAMEWORK
-        public VendrReviewsController(IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, VendrReviewsSettings settings)
-        {
-            _vendrApi = vendrApi;
-            _logger = logger;
-            _reviewService = reviewService;
-            _settings = settings;
-        }
-#else
         public VendrReviewsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, 
             ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
-            IVendrApi vendrApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, IOptions<VendrReviewsSettings> settings)
+            ICommerceApi commerceApi, IReviewService reviewService, ILogger<VendrReviewsController> logger, IOptions<UmbracoCommerceReviewsSettings> settings)
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
 
         {
-            _vendrApi = vendrApi;
+            _commerceApi = commerceApi;
             _logger = logger;
             _reviewService = reviewService;
             _settings = settings.Value;
         }
-#endif
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-#if NET
         [ValidateUmbracoFormRouteString]
-#endif
         public IActionResult AddReview(AddReviewDto dto)
         {
             try

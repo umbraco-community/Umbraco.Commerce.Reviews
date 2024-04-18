@@ -1,36 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using Vendr.Contrib.Reviews.Helpers;
-using Vendr.Contrib.Reviews.Models;
-using Vendr.Contrib.Reviews.Services;
-using Vendr.Contrib.Reviews.Web.Dtos;
-using Vendr.Contrib.Reviews.Web.Dtos.Mappers;
-using Vendr.Core.Adapters;
-
-#if NETFRAMEWORK
-using System.Web.Http;
-using Umbraco.Core.Models;
-using Umbraco.Core.Services;
-using Umbraco.Web.Models.ContentEditing;
-using Umbraco.Web.Mvc;
-using Umbraco.Web.WebApi;
-using Notification = Umbraco.Web.Models.ContentEditing.Notification;
-#else
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Models;
-using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Models.ContentEditing;
+using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Cms.Web.Common.Attributes;
+using Umbraco.Commerce.Core.Adapters;
+using Umbraco.Commerce.Reviews.Helpers;
+using Umbraco.Commerce.Reviews.Models;
+using Umbraco.Commerce.Reviews.Persistence.Dtos;
+using Umbraco.Commerce.Reviews.Services;
 using Notification = Umbraco.Cms.Core.Models.ContentEditing.BackOfficeNotification;
-#endif
 
-namespace Vendr.Contrib.Reviews.Web.Controllers
+namespace Umbraco.Commerce.Reviews.Web.Controllers
 {
     [PluginController(Constants.Internals.PluginControllerName)]
     public class ReviewApiController : UmbracoAuthorizedApiController
@@ -78,7 +60,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         }
 
         [HttpGet]
-        public Dictionary<string, string> GetProductData(string productReference, string languageIsoCode = null)
+        public Dictionary<string, string> GetProductData(string productReference, string? languageIsoCode = null)
         {
             if (string.IsNullOrEmpty(languageIsoCode))
                 languageIsoCode = Thread.CurrentThread.CurrentUICulture.Name;
@@ -98,20 +80,12 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         
 
         [HttpGet]
-#if NETFRAMEWORK
-        public ReviewEditDto GetReview(Guid id)
-#else
         public ActionResult<ReviewEditDto> GetReview(Guid id)
-#endif
         {
             var entity = _reviewService.GetReview(id);
             if (entity == null)
             {
-#if NETFRAMEWORK
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-#else
-        return NotFound();
-#endif
+                return NotFound();
             }
 
             return EntityMapper.ReviewEntityToEditDto(entity);
@@ -147,17 +121,6 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
         }
 
         [HttpGet]
-#if NETFRAMEWORK
-        public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromUri] ReviewStatus[] statuses = null, [FromUri] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 30)
-        {
-            var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
-
-            return new PagedResult<ReviewDto>(result.TotalItems, result.PageNumber, result.PageSize)
-            {
-                Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
-            };
-        }
-#else
         public PagedResult<ReviewDto> SearchReviews(Guid storeId, [FromQuery] ReviewStatus[] statuses = null, [FromQuery] decimal[] ratings = null, string searchTerm = null, long pageNumber = 1, int pageSize = 30)
         {
             var result = _reviewService.SearchReviews(storeId, statuses: statuses, ratings: ratings, searchTerm: searchTerm, pageNumber: pageNumber, pageSize: pageSize);
@@ -167,7 +130,6 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
                 Items = result.Items.Select(x => EntityMapper.ReviewEntityToDto(x))
             };
         }
-#endif
 
         [HttpPost]
         public ReviewEditDto SaveReview(ReviewSaveDto review)
@@ -186,11 +148,7 @@ namespace Vendr.Contrib.Reviews.Web.Controllers
             }
             catch (Exception ex)
             {
-#if NETFRAMEWORK
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed saving review", ex));
-#else
                 throw new BadHttpRequestException("Failed saving review",  ex);
-#endif
             }
 
             var model = EntityMapper.ReviewEntityToEditDto(entity);

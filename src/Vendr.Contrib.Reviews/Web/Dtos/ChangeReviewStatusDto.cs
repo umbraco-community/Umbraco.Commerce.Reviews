@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Vendr.Contrib.Reviews.Models;
+﻿using System.Runtime.Serialization;
+using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Web.Dtos
+namespace Umbraco.Commerce.Reviews.Web.Dtos
 {
     [DataContract(Name = "changeReviewStatus", Namespace = "")]
     public class ChangeReviewStatusDto

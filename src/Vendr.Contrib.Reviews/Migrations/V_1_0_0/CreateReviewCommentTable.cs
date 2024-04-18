@@ -10,7 +10,7 @@ using Umbraco.Cms.Infrastructure.Persistence.DatabaseModelDefinitions;
 using Umbraco.Cms.Infrastructure.Persistence.SqlSyntax;
 #endif
 
-namespace Vendr.Contrib.Reviews.Migrations.V_1_0_0
+namespace Umbraco.Commerce.Reviews.Migrations.V_1_0_0
 {
     public class CreateReviewCommentTable : MigrationBase
     {

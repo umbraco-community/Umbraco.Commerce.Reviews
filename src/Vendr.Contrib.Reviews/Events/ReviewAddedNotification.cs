@@ -1,7 +1,7 @@
-﻿using Vendr.Common.Events;
-using Vendr.Contrib.Reviews.Models;
+﻿using Umbraco.Commerce.Common.Events;
+using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Events
+namespace Umbraco.Commerce.Reviews.Events
 {
     public class ReviewNotificationBase : NotificationEventBase
     {

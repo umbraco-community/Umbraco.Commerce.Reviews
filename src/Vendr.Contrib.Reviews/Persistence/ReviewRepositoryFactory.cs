@@ -1,13 +1,8 @@
-﻿using Vendr.Common;
-using Vendr.Contrib.Reviews.Persistence.Repositories;
-using Vendr.Contrib.Reviews.Persistence.Repositories.Implement;
-using Vendr.Infrastructure;
-
-#if NETFRAMEWORK
-using Umbraco.Core.Scoping;
-#else
+﻿using Umbraco.Commerce.Common;
+using Umbraco.Commerce.Reviews.Persistence.Repositories;
+using Umbraco.Commerce.Reviews.Persistence.Repositories.Implement;
+using Umbraco.Commerce.Infrastructure;
 using Umbraco.Cms.Core.Scoping;
-#endif
 
 namespace Vendr.Contrib.Reviews.Persistence
 {

@@ -1,14 +1,10 @@
-﻿using Vendr.Common.Events;
-using Vendr.Core.Adapters;
-using Vendr.Core.Services;
+﻿using Umbraco.Commerce.Common.Events;
+using Umbraco.Commerce.Core.Adapters;
+using Umbraco.Commerce.Core.Services;
 
-#if NETFRAMEWORK
-using Umbraco.Core.Models.PublishedContent;
-#else
 using Umbraco.Cms.Core.Models.PublishedContent;
-#endif
 
-namespace Vendr.Contrib.Reviews.Events.Handlers
+namespace Umbraco.Commerce.Reviews.Events.Handlers
 {
     public class LogReviewAddedActivity : NotificationEventHandlerBase<ReviewAddedNotification>
     {
@@ -25,7 +21,7 @@ namespace Vendr.Contrib.Reviews.Events.Handlers
 
         public override void Handle(ReviewAddedNotification evt)
         {
-            var culture = _variationContextAccessor.VariationContext.Culture;
+            var culture = _variationContextAccessor?.VariationContext?.Culture;
 
             var snapshot = _productAdapter.GetProductSnapshot(evt.Review.ProductReference, culture);
             if (snapshot == null)

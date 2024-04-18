@@ -1,7 +1,7 @@
-﻿using Vendr.Common;
-using Vendr.Contrib.Reviews.Persistence.Repositories;
+﻿using Umbraco.Commerce.Common;
+using Umbraco.Commerce.Reviews.Persistence.Repositories;
 
-namespace Vendr.Contrib.Reviews.Persistence
+namespace Umbraco.Commerce.Reviews.Persistence
 {
     public interface IReviewRepositoryFactory
     {

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Vendr.Common.Models;
-using Vendr.Contrib.Reviews.Models;
+﻿using Umbraco.Commerce.Common.Models;
+using Umbraco.Commerce.Reviews.Models;
 
-namespace Vendr.Contrib.Reviews.Services
+namespace Umbraco.Commerce.Reviews.Services
 {
     public interface IReviewService
     {
@@ -25,12 +23,12 @@ namespace Vendr.Contrib.Reviews.Services
         /// <summary>
         /// Gets reviews for customer.
         /// </summary>
-        PagedResult<Review> GetReviewsForCustomer(Guid storeId, string customerReference, string productReference = null, long pageNumber = 1, long pageSize = 50);
+        PagedResult<Review> GetReviewsForCustomer(Guid storeId, string customerReference, string? productReference = null, long pageNumber = 1, long pageSize = 50);
 
         /// <summary>
         /// Search reviews.
         /// </summary>
-        PagedResult<Review> SearchReviews(Guid storeId, string searchTerm = "", ReviewStatus[] statuses = null, decimal[] ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50);
+        PagedResult<Review> SearchReviews(Guid storeId, string searchTerm = "", ReviewStatus[]? statuses = null, decimal[]? ratings = null, DateTime? startDate = null, DateTime? endDate = null, long pageNumber = 1, long pageSize = 50);
 
         /// <summary>
         /// Get the average star rating for a product.

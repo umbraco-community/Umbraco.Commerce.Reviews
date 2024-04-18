@@ -1,6 +1,6 @@
-﻿using Vendr.Core.Persistence.Repositories;
+﻿using Umbraco.Commerce.Core.Persistence.Repositories;
 
-namespace Vendr.Contrib.Reviews.Persistence.Repositories
+namespace Umbraco.Commerce.Reviews.Persistence.Repositories
 {
     internal abstract class RepositoryBase : IRepository
     {

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Umbraco.Commerce.Reviews.Persistence.Dtos;
 
-namespace Vendr.Contrib.Reviews.Web.Dtos
+namespace Umbraco.Commerce.Reviews.Web.Dtos
 {
     [DataContract(Name = "review", Namespace = "")]
     public class ReviewDto
